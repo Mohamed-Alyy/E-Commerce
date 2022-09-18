@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="120" id="KGk-i7-Jjw" customClass="MessegesTableViewCell" customModule="E_Commerce" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="400" height="120"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="400" height="120"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" translatesAutoresizingMaskIntoConstraints="NO" id="yge-KZ-8S9">
+                        <rect key="frame" x="8" y="8" width="384" height="104"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="o0H-xP-dqY">
+                                <rect key="frame" x="0.0" y="0.0" width="176" height="104"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="messeg" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hOK-9Z-4r1">
+                                        <rect key="frame" x="8" y="8" width="60" height="88"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" red="0.87466443138024241" green="0.87466443138024241" blue="0.87466443138024241" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <constraints>
+                                    <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="hOK-9Z-4r1" secondAttribute="trailing" constant="8" id="I2B-aj-dLM"/>
+                                    <constraint firstAttribute="bottom" secondItem="hOK-9Z-4r1" secondAttribute="bottom" constant="8" id="ZQC-5e-lrT"/>
+                                    <constraint firstItem="hOK-9Z-4r1" firstAttribute="leading" secondItem="o0H-xP-dqY" secondAttribute="leading" constant="8" id="bUR-sA-CnB"/>
+                                    <constraint firstItem="hOK-9Z-4r1" firstAttribute="top" secondItem="o0H-xP-dqY" secondAttribute="top" constant="8" id="kOW-nu-n3t"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                    </stackView>
+                </subviews>
+                <constraints>
+                    <constraint firstAttribute="bottom" secondItem="yge-KZ-8S9" secondAttribute="bottom" constant="8" id="4UC-9B-RaG"/>
+                    <constraint firstItem="yge-KZ-8S9" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="8" id="GHf-SU-Q6A"/>
+                    <constraint firstItem="yge-KZ-8S9" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="8" id="XfK-Aa-OEL"/>
+                    <constraint firstAttribute="trailing" secondItem="yge-KZ-8S9" secondAttribute="trailing" constant="8" id="mx5-1X-QrT"/>
+                </constraints>
+            </tableViewCellContentView>
+            <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
+            <connections>
+                <outlet property="chatBgView" destination="o0H-xP-dqY" id="naX-ij-QgM"/>
+                <outlet property="chatMessegLBL" destination="hOK-9Z-4r1" id="0Jt-J6-HFo"/>
+                <outlet property="messegeStackView" destination="yge-KZ-8S9" id="USF-Oh-5g4"/>
+            </connections>
+            <point key="canvasLocation" x="189.85507246376812" y="113.83928571428571"/>
+        </tableViewCell>
+    </objects>
+</document>
