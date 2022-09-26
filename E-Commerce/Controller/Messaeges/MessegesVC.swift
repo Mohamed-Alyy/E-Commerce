@@ -17,6 +17,9 @@ class MessegesVC: UIViewController {
         
         tabBarController?.title = "Messeges"
         navigationItem.backButtonTitle = ""
+        title = "Messeges List"
+        navigationController?.navigationBar.prefersLargeTitles = true
+        tabBarItem.title = "Fav"
        
     }
     override func viewDidLoad() {

@@ -25,6 +25,8 @@ class HomeCollectionVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         registerCell()
+        
+        
     }
  
     

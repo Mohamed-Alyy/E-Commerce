@@ -7,21 +7,41 @@
 
 import UIKit
 
-class GridCollectionViewCell: UICollectionViewCell {
+class GridCollectionViewCell: UICollectionViewCell  {
 
     // MARK: - OUTLETS
     
-    @IBOutlet weak var gridCollectionImageView: UIImageView!
- 
-    @IBOutlet weak var gridCollectionBgView: UIView!
+    @IBOutlet weak var produtsTitlLBL: UILabel!
+    @IBOutlet weak var productImageView: UIImageView!
+    @IBOutlet weak var descriptionLBL: UILabel!
+    @IBOutlet weak var priceLBL: UILabel!
     
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        // Initialization code
-    }
-
+    @IBOutlet weak var gridCollectionBgView: UIView!
+    @IBOutlet weak var favoriteBtn: UIButton!
+    
+    @IBOutlet weak var xBtnOutlet: UIButton!
+    
+    
+    var cellRow: Int?
+    
+        
     override func layoutSubviews() {
-        Helper.customViews(views: [gridCollectionBgView, gridCollectionImageView], cornerRadius: 0.03)
-        gridCollectionImageView.layer.borderWidth = 0.3
+        Helper.customViews(views: [gridCollectionBgView], cornerRadius: 0.03)
     }
+    
+    var favoriteBtnTappedClousre: ((_ row:Int)->Void)?
+    
+    
+    @IBAction func favoriteBtnPressed(_ sender: UIButton) {
+        guard cellRow != nil else {return}
+        favoriteBtnTappedClousre?(cellRow!)
+}
+
+    
+    @IBAction func xBtnPressed(_ sender: UIButton) {
+        
+    }
+    
+    
+    
 }

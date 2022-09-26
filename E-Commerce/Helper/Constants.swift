@@ -6,8 +6,26 @@
 //
 
 import Foundation
+import UIKit
 
 class K {
+    
+    // MARK: - Constant property
+    
+    
+    // some assets images names
+    static let notFavoriteImage = UIImage(named: "favorite")
+    static let isFavoriteImage = UIImage(named: "favorite.fill")
+    static let shoppingBagImage = UIImage(named: "circleBagWhite")
+    static let shoppingBagRedImage = UIImage(named: "circleBagRed")
+    
+    // Product Details Notification names properties
+    static let favoriteNotificationName = "com.favoriteNotification"
+    static let productIsFavoriteNotificationfName = "productIsFavorite"
+    static let productIdNotificationfName = "productId"
+//    static let rowIdNotificationfName = "rowId"
+    static let senFavoiteToMyFavoriteArrayNotificationName = "myFavoritesArray"
+    static let sendFinalMyFavArrayNotificationName = "finalMyFavoriteArray"
     
     
     // MARK: - Storyborads Ids
@@ -18,7 +36,7 @@ class K {
     // MARK: - Collections Cells Ids
     
     static let idHomeCollectionIdCell = String(describing: HomeCollectionViewCell.self)
-    static let idShubCategoriesColltionIdCell = String(describing: SubCategoriesCollectionViewCell.self)
+    static let idSubCategoriesColltionIdCell = String(describing: SubCategoriesCollectionViewCell.self)
     static let idListProductionCollectionCell = String(describing: ListProductsCollectionViewCell.self)
     static let idGridCollectionCell = String(describing: GridCollectionViewCell.self)
     static let idColorsCollectionCell = String(describing: ColorsCollectionViewCell.self)
@@ -26,7 +44,8 @@ class K {
     static let idProductDetailsCollectionCell = String(describing: ProductsDetailsCollectionViewCell.self)
     static let idSelesctSizeCollectionCell = String(describing: SelectSizeCollectionViewCell.self)
     static let idSortingByCollectionCell = String(describing: SortingByCollectionViewCell.self)
-    
+    static let idFavoriteCollectionCell = String(describing: FavoriteCollectionViewCell.self)
+
     
     
     // MARK: - Table View Cells Ids
@@ -52,4 +71,6 @@ class K {
     static let productDetailsVCid = String(describing: ProductsDetailsVC.self)
     static let selectSizeVCid = String(describing: SelesctSizeVC.self)
     static let sortingByVCid = String(describing: SortingByVC.self)
+    static let shopingBagVCid = String(describing: ShoppingBagVC.self)
+    static let favoriteVCid = String(describing: MyFavoritesVC.self)
 }

@@ -16,7 +16,7 @@ class ProductsDetailsCollectionViewCell: UICollectionViewCell {
         // Initialization code
     }
 
-    override func layoutSubviews() {
-        Helper.customViews(views: [produtImageView], cornerRadius: 0.03)
-    }
+//    override func layoutSubviews() {
+//        Helper.customViews(views: [produtImageView], cornerRadius: 0.03)
+//    }
 }

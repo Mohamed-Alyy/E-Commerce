@@ -17,6 +17,8 @@ class ProductsDetailsVC: UIViewController {
     
     @IBOutlet weak var addToCartBtnOutlet: UIButton!
     
+    @IBOutlet weak var favoriteBtnOutlet: UIButton!
+    
     @IBOutlet weak var sizeView: UIView!{
         didSet{
             sizeView.layer.borderWidth = 1
@@ -47,6 +49,7 @@ class ProductsDetailsVC: UIViewController {
         super.viewDidLoad()
 
         registerCell()
+        setFavoiteBtnImage()
     }
     
     override func viewDidLayoutSubviews() {
@@ -58,7 +61,9 @@ class ProductsDetailsVC: UIViewController {
 
     // MARK: - Properties
     
-    var productDetailsImagesArray = [#imageLiteral(resourceName: "man") , #imageLiteral(resourceName: "flower") , #imageLiteral(resourceName: "massage") ]
+    var currentRow = 0
+    
+    var productDetails: ProductsModel?
     
     var suggestedProductsImagesArray = [#imageLiteral(resourceName: "candles") , #imageLiteral(resourceName: "candles"), #imageLiteral(resourceName: "candles") , #imageLiteral(resourceName: "candles") ]
     
@@ -85,11 +90,42 @@ class ProductsDetailsVC: UIViewController {
     }
     
     
+    @IBAction func favoriteBtnPressed(_ sender: UIButton) {
+      
+        productDetails?.isFavorite.toggle()
+        setFavoiteBtnImage()
+        sendFavoriteNotification()
+        
+    }
+    
     
     
     
     // MARK: - Functions
     
+
+    // set image for favorite button
+    func setFavoiteBtnImage(){
+        if productDetails?.isFavorite == false{
+            favoriteBtnOutlet.setImage(K.notFavoriteImage, for: .normal)
+        }else{
+            favoriteBtnOutlet.setImage(K.isFavoriteImage, for: .normal)
+        }
+    }
+    
+    // set isFavorite in newCollection view controller
+    func sendFavoriteNotification(){
+        
+        guard let isFavorite = productDetails?.isFavorite else {return}
+        guard let productId = productDetails?.id else {return}
+     
+        
+        let userInfo : [String: Any] = [K.productIsFavoriteNotificationfName : isFavorite, K.productIdNotificationfName: productId]
+        
+        NotificationCenter.default.post(name: NSNotification.Name(K.favoriteNotificationName), object: nil, userInfo: userInfo)
+    }
+    
+    // register collection view cells
     func registerCell(){
         productDetailsImagesCollectionView.register(UINib(nibName: K.idProductDetailsCollectionCell, bundle: nil), forCellWithReuseIdentifier: K.idProductDetailsCollectionCell)
         productDetailsImagesCollectionView.delegate=self
@@ -112,7 +148,7 @@ extension ProductsDetailsVC : Typealias.collectionView_DataSourece_Delegate{
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         switch collectionView{
         case productDetailsImagesCollectionView:
-            return productDetailsImagesArray.count
+            return [productDetails].count + 2
         case suggestedProductsCollectionView:
             return suggestedProductsImagesArray.count
         default:
@@ -125,14 +161,15 @@ extension ProductsDetailsVC : Typealias.collectionView_DataSourece_Delegate{
         switch collectionView {
         case productDetailsImagesCollectionView :
             if let productsCell = collectionView.dequeueReusableCell(withReuseIdentifier: K.idProductDetailsCollectionCell, for: indexPath) as? ProductsDetailsCollectionViewCell {
-                productsCell.produtImageView.image = productDetailsImagesArray[indexPath.row]
+                productsCell.produtImageView.image = UIImage(named: productDetails!.image)
+                
                 return productsCell
             }
             
         case suggestedProductsCollectionView:
             if let suggestedCell = collectionView.dequeueReusableCell(withReuseIdentifier: K.idGridCollectionCell, for: indexPath) as? GridCollectionViewCell {
                
-                suggestedCell.gridCollectionImageView.image = suggestedProductsImagesArray[indexPath.row]
+                suggestedCell.productImageView.image = suggestedProductsImagesArray[indexPath.row]
                 return suggestedCell
             }
             
@@ -167,6 +204,9 @@ extension ProductsDetailsVC : Typealias.collectionView_DataSourece_Delegate{
         default:
             return 0
         }
+    }
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+        UIEdgeInsets.zero
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
