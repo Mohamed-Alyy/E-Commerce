@@ -43,6 +43,9 @@ class MyFavoritesVC: UIViewController {
     
     @IBAction func filterBtnPressed(_ sender: UIButton) {
         if let filterVC = storyboard?.instantiateViewController(withIdentifier: K.filterVCid) as? FilterVC{
+            //hide tabBar before present to fix isu
+            self.tabBarController?.tabBar.isHidden = true
+            
             filterVC.modalPresentationStyle = .overCurrentContext
             filterVC.modalTransitionStyle = .crossDissolve
             
@@ -55,6 +58,9 @@ class MyFavoritesVC: UIViewController {
     @IBAction func priceOrderBtnPressed(_ sender: UIButton) {
         
         if let sortingVC = storyboard?.instantiateViewController(withIdentifier: K.sortingByVCid) as? SortingByVC {
+            //hide tabBar before present to fix isue
+            self.tabBarController?.tabBar.isHidden = true
+            
             sortingVC.modalTransitionStyle = .crossDissolve
             sortingVC.modalPresentationStyle = .overCurrentContext
             

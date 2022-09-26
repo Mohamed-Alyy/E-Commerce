@@ -19,6 +19,8 @@ class FilterVC: UIViewController {
     
     @IBOutlet weak var categoryCollectionView: UICollectionView!
     
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 

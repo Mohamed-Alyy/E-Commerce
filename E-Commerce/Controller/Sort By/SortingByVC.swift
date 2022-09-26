@@ -9,6 +9,7 @@ import UIKit
 
 protocol UsenigSortingFilterProtocol {
     func didUserUseingFilter(name: String)
+    
 }
 
 class SortingByVC: UIViewController {
@@ -18,8 +19,7 @@ class SortingByVC: UIViewController {
     @IBOutlet weak var bacgroundView: UIView!
     @IBOutlet weak var sortingByCollectionView: UICollectionView!
 
-    
-    
+  
     
     override func viewDidLoad() {
         super.viewDidLoad()
