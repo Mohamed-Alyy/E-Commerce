@@ -133,6 +133,7 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" leftItemsSupplementBackButton="YES" id="T0r-FU-7nc">
+                        <barButtonItem key="backBarButtonItem" title=" " id="290-4S-NG5"/>
                         <barButtonItem key="rightBarButtonItem" image="magnifyingglass" catalog="system" id="Y5n-A6-Ly8"/>
                     </navigationItem>
                     <connections>

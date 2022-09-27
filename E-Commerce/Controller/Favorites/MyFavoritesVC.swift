@@ -21,10 +21,7 @@ class MyFavoritesVC: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         tabBarController?.title = "Favorites"
-        title = "My Favorites"
-        navigationController?.navigationBar.prefersLargeTitles = true
         tabBarController?.tabBar.selectedItem?.title = ""
-        //tabBarController?.tabBar.selectedItem?.image = UIImage(systemName: "heart")
     }
     
     
@@ -44,7 +41,7 @@ class MyFavoritesVC: UIViewController {
     @IBAction func filterBtnPressed(_ sender: UIButton) {
         if let filterVC = storyboard?.instantiateViewController(withIdentifier: K.filterVCid) as? FilterVC{
             //hide tabBar before present to fix isu
-            self.tabBarController?.tabBar.isHidden = true
+           // self.tabBarController?.tabBar.isHidden = true
             
             filterVC.modalPresentationStyle = .overCurrentContext
             filterVC.modalTransitionStyle = .crossDissolve
@@ -59,7 +56,7 @@ class MyFavoritesVC: UIViewController {
         
         if let sortingVC = storyboard?.instantiateViewController(withIdentifier: K.sortingByVCid) as? SortingByVC {
             //hide tabBar before present to fix isue
-            self.tabBarController?.tabBar.isHidden = true
+           // self.tabBarController?.tabBar.isHidden = true
             
             sortingVC.modalTransitionStyle = .crossDissolve
             sortingVC.modalPresentationStyle = .overCurrentContext
@@ -158,15 +155,36 @@ class MyFavoritesVC: UIViewController {
                         listFavCell.favoriteBtn.setImage(K.shoppingBagRedImage, for: .normal)
                     }
                     
-                    
                     return listFavCell
+                    
                 }else{
+                    
                     let gridFavCell = collectionView.dequeueReusableCell(withReuseIdentifier: K.idGridCollectionCell, for: indexPath) as! GridCollectionViewCell
                     gridFavCell.produtsTitlLBL.text = myFavoritesArray[indexPath.row].title
                     gridFavCell.priceLBL.text = "$ \(myFavoritesArray[indexPath.row].price)"
                     gridFavCell.descriptionLBL.text = myFavoritesArray[indexPath.row].description
                     gridFavCell.productImageView.image = UIImage(named: myFavoritesArray[indexPath.row].image)
-                    gridFavCell.favoriteBtn.setImage(K.shoppingBagImage, for: .normal)
+                    
+                    gridFavCell.cellRow = indexPath.row
+                    
+                    gridFavCell.xButtonTappedClousre = { [weak self ]row in
+                        self?.myFavoritesArray.remove(at: row)
+                        self!.myFavoriteCollection.reloadData()
+                    }
+                    
+                    
+                    gridFavCell.favoriteBtnTappedClousre = { [unowned self] row in
+                        let isFavorite =  self.myFavoritesArray[row].isFavorite
+                        self.myFavoritesArray[row].isFavorite = !isFavorite
+                        self.myFavoriteCollection.reloadData()
+                    }
+                    
+                    // set the bag photo
+                    if myFavoritesArray[indexPath.row].isFavorite{
+                        gridFavCell.favoriteBtn.setImage(K.shoppingBagImage, for: .normal)
+                    }else{
+                        gridFavCell.favoriteBtn.setImage(K.shoppingBagRedImage, for: .normal)
+                    }
                     
                     return gridFavCell
                 }
@@ -198,7 +216,7 @@ class MyFavoritesVC: UIViewController {
                     return CGSize(width: width , height: height / 4)
                 } else {
                      convertCollectionGridOutlet.setImage(UIImage(named: "grid"), for: .normal)
-                    return CGSize(width: width / 2  , height: height * 0.5)
+                    return CGSize(width: width / 2  , height: height * 0.55)
                 }
                 
             default:

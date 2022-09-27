@@ -18,13 +18,10 @@ class ShoppingBagVC: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         tabBarController?.title = "My Bag"
-        title = "My Bag"
-        navigationController?.navigationBar.prefersLargeTitles = true
         tabBarController?.tabBar.selectedItem?.title = ""
-       
-       
     }
 
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         registerCell()

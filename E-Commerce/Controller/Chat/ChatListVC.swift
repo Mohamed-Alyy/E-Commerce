@@ -58,7 +58,9 @@ extension ChatListVC : Typealias.tableView_DataSourece_Delegate{
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if let messegesVC = storyboard?.instantiateViewController(withIdentifier: K.chatVCid) as? MessegesVC{
-           // messegesVC.title = "Messges"
+            
+            //messegesVC.navigationItem.backButtonTitle = ""
+            //navigationController?.navigationItem.backButtonTitle = ""
             
             navigationController?.pushViewController(messegesVC, animated: true)
         }

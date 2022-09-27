@@ -30,6 +30,7 @@ class GridCollectionViewCell: UICollectionViewCell  {
     }
     
     var favoriteBtnTappedClousre: ((_ row:Int)->Void)?
+    var xButtonTappedClousre: ((_ row:Int)-> Void)?
     
     
     @IBAction func favoriteBtnPressed(_ sender: UIButton) {
@@ -39,6 +40,8 @@ class GridCollectionViewCell: UICollectionViewCell  {
 
     
     @IBAction func xBtnPressed(_ sender: UIButton) {
+        guard cellRow != nil else {return}
+        xButtonTappedClousre!(cellRow!)
         
     }
     

@@ -16,12 +16,9 @@ class MessegesVC: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         
         tabBarController?.title = "Messeges"
-        navigationItem.backButtonTitle = ""
-        title = "Messeges List"
-        navigationController?.navigationBar.prefersLargeTitles = true
-        tabBarItem.title = "Fav"
-       
+        //navigationItem.backButtonTitle = ""
     }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         registerCell()

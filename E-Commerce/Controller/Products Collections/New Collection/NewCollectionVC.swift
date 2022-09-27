@@ -47,10 +47,10 @@ class NewCollectionVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         registerProsucstCell()
-        reciveFavoriteNotification()  
+        reciveFavoriteNotification()
     }
     
-
+    
     
     // MARK: - Actions
     
@@ -108,7 +108,7 @@ class NewCollectionVC: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(setFavoiteBtnImageUsengNotification), name: NSNotification.Name(K.favoriteNotificationName), object: nil)
     }
     
-   
+    
     // do some actions whene recive notification post from ProductDetailsVC
     @objc func setFavoiteBtnImageUsengNotification(_ notification: Notification){
         
@@ -116,7 +116,7 @@ class NewCollectionVC: UIViewController {
         guard let isFavorite = notification.userInfo![K.productIsFavoriteNotificationfName] as? Bool else {return}
         guard let productId = notification.userInfo![K.productIdNotificationfName] as? Int else {return}
         
-
+        
         
         // change isFavorite value in current object to set favorit button image
         for product in newCollectionArray {
@@ -127,47 +127,42 @@ class NewCollectionVC: UIViewController {
         }
         
         // append current favorite object in myfavorite array that existing in NewCollectionV
-       let product = newCollectionArray[productId]
+        let product = newCollectionArray[productId]
         
         if product.isFavorite{
             
             myFavoritesArr.append(product)
             myFavoritesArrIndex += 1
             
-            print("myFavoritesArr.count in NewCollVC after adding myFav: ",myFavoritesArr.count)
-            print("myFavoritesArrIndex after add =======: ",myFavoritesArrIndex)
+        }else{
+            
+            myFavoritesArr.remove(at: myFavoritesArrIndex - 1)
+            myFavoritesArrIndex -= 1
+        }
+        sendMyFavArrayByNotification()
+    }
+    
+    
+    func setMyFavoritesArray (row: Int) {
+        // if favorite Button Tapped append current product to myFavorite array
+        let myFav = newCollectionArray[row]
+        
+        if myFav.isFavorite{
+            myFavoritesArr.append(myFav)
+            myFavoritesArrIndex += 1
             
         }else{
             
             myFavoritesArr.remove(at: myFavoritesArrIndex - 1)
             myFavoritesArrIndex -= 1
-            
-            print("myFavoritesArrIndex after delete =======: ",myFavoritesArrIndex)
-            print("myFavoritesArr.count in NewCollVC after delete myFav: ",myFavoritesArr.count)
         }
-        sendMyFavArrayByNotification()
-    }
-    
-    func setMyFavoritesArray (row: Int) {
-        // if favorite Button Tapped append current product to myFavorite array
-            let myFav = newCollectionArray[row]
-            
-            if myFav.isFavorite{
-                myFavoritesArr.append(myFav)
-                myFavoritesArrIndex += 1
-                
-            }else{
-
-                myFavoritesArr.remove(at: myFavoritesArrIndex - 1)
-                myFavoritesArrIndex -= 1
-            }
-            productsCollection.reloadData()
+        productsCollection.reloadData()
     }
     
     func sendMyFavArrayByNotification(){
         let userInfo: [String: Any] = [K.sendFinalMyFavArrayNotificationName: myFavoritesArr]
-     NotificationCenter.default.post(name: NSNotification.Name(K.senFavoiteToMyFavoriteArrayNotificationName), object: nil, userInfo: userInfo)
-     }
+        NotificationCenter.default.post(name: NSNotification.Name(K.senFavoiteToMyFavoriteArrayNotificationName), object: nil, userInfo: userInfo)
+    }
     
     // remove notification obsrver
     deinit {
@@ -212,7 +207,7 @@ extension NewCollectionVC:Typealias.collectionView_DataSourece_Delegate{
                 
                 if let lisetCell = collectionView.dequeueReusableCell(withReuseIdentifier: K.idListProductionCollectionCell, for: indexPath) as? ListProductsCollectionViewCell {
                     
-                   
+                    
                     
                     lisetCell.titleLBL.text = products.title
                     lisetCell.productImage.image = UIImage(named: products.image)
@@ -223,7 +218,7 @@ extension NewCollectionVC:Typealias.collectionView_DataSourece_Delegate{
                     
                     lisetCell.cellRow = indexPath.row
                     lisetCell.delegate=self
-                   
+                    
                     if products.isFavorite{
                         lisetCell.favoriteBtn.setImage(K.isFavoriteImage, for: .normal)
                     }else{
@@ -249,8 +244,12 @@ extension NewCollectionVC:Typealias.collectionView_DataSourece_Delegate{
                     gridCell.favoriteBtnTappedClousre = { [unowned self] row in
                         let isFavorite =  self.newCollectionArray[row].isFavorite
                         self.newCollectionArray[row].isFavorite = !isFavorite
+                        
+                        // send current myFavoriteArr in NewCollectionVC to myFavoritesArray in MyFavoritesVC to add favorite items to Caart
                         setMyFavoritesArray(row: indexPath.row)
+                        // send notification to myfavorite veiw controller to add current opbject to myFavoriteArray
                         sendMyFavArrayByNotification()
+                        
                         self.productsCollection.reloadData()
                         
                     }
@@ -341,7 +340,7 @@ extension NewCollectionVC:Typealias.collectionView_DataSourece_Delegate{
 
 // MARK: - Custom Delegate
 
-    //Filtering data
+//Filtering data
 extension NewCollectionVC: UsenigSortingFilterProtocol{
     func didUserUseingFilter(name: String) {
         orderBtnOutlet.titleLabel?.text = " \(name)"
@@ -350,26 +349,26 @@ extension NewCollectionVC: UsenigSortingFilterProtocol{
 }
 
 
-    
+
 extension NewCollectionVC: FavoriteDelegateProtocol{
     func didXbuttonTapped(favRow: Int) {
         //
     }
     
-   
+    
     func didFavoriteTapped(row: Int) {
         
         newCollectionArray[row].isFavorite.toggle()
         print("isFavorite",newCollectionArray[row].isFavorite)
         
+        // send current myFavoriteArr in NewCollectionVC to myFavoritesArray in MyFavoritesVC to add favorite items to Caart
         setMyFavoritesArray (row: row)
-    
+        
         
         // send notification to myfavorite veiw controller to add current opbject to myFavoriteArray
-
-           sendMyFavArrayByNotification()
+        sendMyFavArrayByNotification()
     }
-   
+    
 }
 
 

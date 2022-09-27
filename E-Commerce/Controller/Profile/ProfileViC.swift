@@ -11,6 +11,7 @@ class ProfileViC: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         tabBarController?.title = "Profile"
+        tabBarController?.tabBar.selectedItem?.title = ""
     }
 
     override func viewDidLoad() {

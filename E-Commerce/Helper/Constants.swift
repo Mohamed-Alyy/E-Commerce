@@ -44,7 +44,7 @@ class K {
     static let idProductDetailsCollectionCell = String(describing: ProductsDetailsCollectionViewCell.self)
     static let idSelesctSizeCollectionCell = String(describing: SelectSizeCollectionViewCell.self)
     static let idSortingByCollectionCell = String(describing: SortingByCollectionViewCell.self)
-    static let idFavoriteCollectionCell = String(describing: FavoriteCollectionViewCell.self)
+   // static let idFavoriteCollectionCell = String(describing: FavoriteCollectionViewCell.self)
 
     
     
