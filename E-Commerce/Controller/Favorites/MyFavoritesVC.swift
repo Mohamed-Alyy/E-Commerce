@@ -12,7 +12,9 @@ class MyFavoritesVC: UIViewController {
     
    @IBOutlet weak var convertCollectionGridOutlet: UIButton!
     
+    @IBOutlet weak var priceOrderBtnOutlet: UIButton!
     
+    @IBOutlet weak var filterBtnOutlet: UIButton!
     // MARK: - Outlets
     
     @IBOutlet weak var subCategoriesCollection: UICollectionView!
@@ -20,7 +22,7 @@ class MyFavoritesVC: UIViewController {
     
     
     override func viewWillAppear(_ animated: Bool) {
-        tabBarController?.title = "Favorites"
+        tabBarController?.title = "My Favorites"
         tabBarController?.tabBar.selectedItem?.title = ""
     }
     
@@ -39,14 +41,16 @@ class MyFavoritesVC: UIViewController {
     // MARK: - Actions
     
     @IBAction func filterBtnPressed(_ sender: UIButton) {
-        if let filterVC = storyboard?.instantiateViewController(withIdentifier: K.filterVCid) as? FilterVC{
+        if let filterVC = storyboard?.instantiateViewController(withIdentifier: K.filterVCid) as? FilterColorVC{
             //hide tabBar before present to fix isu
-           // self.tabBarController?.tabBar.isHidden = true
+            self.tabBarController?.tabBar.isHidden = true
             
-            filterVC.modalPresentationStyle = .overCurrentContext
-            filterVC.modalTransitionStyle = .crossDissolve
             
-            filterVC.view.backgroundColor = .black.withAlphaComponent(0.5)
+            filterVC.delegate = self
+            filterVC.modalPresentationStyle = UIModalPresentationStyle.overCurrentContext
+            filterVC.modalTransitionStyle = UIModalTransitionStyle.crossDissolve
+            filterVC.view.backgroundColor = UIColor.black.withAlphaComponent(0.7)
+
             present(filterVC, animated: true)
         }
     }
@@ -55,15 +59,18 @@ class MyFavoritesVC: UIViewController {
     @IBAction func priceOrderBtnPressed(_ sender: UIButton) {
         
         if let sortingVC = storyboard?.instantiateViewController(withIdentifier: K.sortingByVCid) as? SortingByVC {
-            //hide tabBar before present to fix isue
-           // self.tabBarController?.tabBar.isHidden = true
+           
             
+            //hide tabBar before present
+            self.tabBarController?.tabBar.isHidden = true
+            print("Button Tapped")
+            
+            sortingVC.delegate = self
             sortingVC.modalTransitionStyle = .crossDissolve
             sortingVC.modalPresentationStyle = .overCurrentContext
             
             sortingVC.view.backgroundColor = .black.withAlphaComponent(0.7)
             
-            //sortingVC.delegate=self
             present(sortingVC, animated: true)
         }
     }
@@ -266,4 +273,36 @@ extension MyFavoritesVC: FavoriteDelegateProtocol{
         myFavoriteCollection.reloadData()
         
     }
+}
+
+
+extension MyFavoritesVC: UsenigSortingFilterProtocol{
+    func didUserTappDoneOrCancelButton(tabBar: UITabBar?) {
+        self.tabBarController?.tabBar.isHidden = false
+    }
+    
+    func didUserUseingFilter(name: String) {
+        priceOrderBtnOutlet.setTitle(name, for: .normal)
+    }
+    
+
+    
+    
+}
+
+extension MyFavoritesVC: UsenigColorFilterProtocol{
+    func didUserTappCancelOrDoneButton(tabBar: UITabBar?) {
+        self.tabBarController?.tabBar.isHidden = false
+    }
+    
+    func didUserUseingColorFilter(name: String?, color: UIColor?) {
+        if name != ""{
+            filterBtnOutlet.setTitle(name, for: .normal)
+        }else{
+            filterBtnOutlet.setTitle("Filter", for: .normal)
+        }
+    }
+    
+
+    
 }

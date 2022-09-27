@@ -6,8 +6,13 @@
 //
 
 import UIKit
+protocol UsenigColorFilterProtocol {
+    func didUserUseingColorFilter(name: String? , color: UIColor?)
+    func didUserTappCancelOrDoneButton(tabBar: UITabBar?)
+}
 
-class FilterVC: UIViewController {
+
+class FilterColorVC: UIViewController {
     
     // MARK: - Outlets
     
@@ -16,7 +21,6 @@ class FilterVC: UIViewController {
     @IBOutlet weak var categoryBgView: UIView!
     
     @IBOutlet weak var colorsCollectionView: UICollectionView!
-    
     @IBOutlet weak var categoryCollectionView: UICollectionView!
     
     
@@ -34,11 +38,16 @@ class FilterVC: UIViewController {
     
     var categoryNamesArray = ["All","Men","Women","Boys","Girls"]
     
+    var currentColor = UIColor()
+    var currentCategoryName = ""
+    var delegate: UsenigColorFilterProtocol?
+    
     
     
     // MARK: - Actions
     
     @IBAction func closeBtnPressed(_ sender: UIButton) {
+        delegate?.didUserTappCancelOrDoneButton(tabBar: self.tabBarController?.tabBar)
         dismiss(animated: true)
     }
     
@@ -63,10 +72,15 @@ class FilterVC: UIViewController {
     func filterAlert () {
         let alert = UIAlertController(title: "Confirm Filter", message: "are you sure to use filter", preferredStyle: .alert)
         let okAction = UIAlertAction(title: "OK", style: .default) { action in
+            
+            // Send data (name and color) by protocol delegate
+            self.delegate?.didUserTappCancelOrDoneButton(tabBar: self.tabBarController?.tabBar)
+            self.delegate?.didUserUseingColorFilter(name: self.currentCategoryName, color: self.currentColor)
+           
             self.dismiss(animated: true)
         }
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { action in
-            //self.dismiss(animated: true)
+            self.dismiss(animated: true)
         }
         alert.addAction(okAction)
         alert.addAction(cancelAction)
@@ -79,7 +93,7 @@ class FilterVC: UIViewController {
 
 // MARK: - Extensions
 
-extension FilterVC: Typealias.collectionView_DataSourece_Delegate{
+extension FilterColorVC: Typealias.collectionView_DataSourece_Delegate{
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         switch collectionView{
         case colorsCollectionView:
@@ -109,6 +123,10 @@ extension FilterVC: Typealias.collectionView_DataSourece_Delegate{
         return UICollectionViewCell()
     }
     
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        currentColor = colorsArray[indexPath.row]
+        currentCategoryName = categoryNamesArray[indexPath.row]
+    }
     
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {

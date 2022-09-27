@@ -56,7 +56,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="1rv-V3-WQB">
-                                <rect key="frame" x="8" y="99.000000000000014" width="412" height="62.666666666666671"/>
+                                <rect key="frame" x="8" y="99" width="412" height="62.666666666666657"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="10" minimumInteritemSpacing="10" id="3Kb-fS-UEy">
                                     <size key="itemSize" width="323" height="53"/>
@@ -732,10 +732,10 @@
             </objects>
             <point key="canvasLocation" x="1612" y="1558"/>
         </scene>
-        <!--FilterVC-->
+        <!--Filter ColorVC-->
         <scene sceneID="fTR-00-c6h">
             <objects>
-                <viewController storyboardIdentifier="FilterVC" id="aUr-nW-jbi" customClass="FilterVC" customModule="E_Commerce" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="FilterColorVC" id="aUr-nW-jbi" customClass="FilterColorVC" customModule="E_Commerce" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="t4w-Yz-mvJ" userLabel="Main View">
                         <rect key="frame" x="0.0" y="0.0" width="428" height="926"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -981,7 +981,7 @@
                                 <rect key="frame" x="0.0" y="535.66666666666663" width="428" height="390.33333333333337"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Select Size" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fcu-5d-hEb">
-                                        <rect key="frame" x="169.33333333333334" y="14.999999999999998" width="89.666666666666657" height="20.333333333333329"/>
+                                        <rect key="frame" x="169.33333333333334" y="14.999999999999998" width="89.6666666666666" height="20.333333333333329"/>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
@@ -1158,7 +1158,7 @@
                                             <color key="baseForegroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </buttonConfiguration>
                                         <connections>
-                                            <action selector="priceOrderBtnPressed:" destination="BwY-RZ-Cav" eventType="touchUpInside" id="q2q-2j-bzx"/>
+                                            <action selector="priceOrderBtnPressed:" destination="BwY-RZ-Cav" eventType="touchUpInside" id="cjD-3B-RSr"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MLW-Pe-EiF">
@@ -1207,7 +1207,9 @@
                     </navigationItem>
                     <connections>
                         <outlet property="convertCollectionGridOutlet" destination="MLW-Pe-EiF" id="hQ8-Ik-OZS"/>
+                        <outlet property="filterBtnOutlet" destination="FYC-nj-PYw" id="Dqh-tV-hJB"/>
                         <outlet property="myFavoriteCollection" destination="ejx-h2-o9n" id="bhD-IG-Gud"/>
+                        <outlet property="priceOrderBtnOutlet" destination="fz9-hy-okt" id="BtM-Qq-Ybs"/>
                         <outlet property="subCategoriesCollection" destination="NhU-zM-R3G" id="ZZg-Tb-Y3P"/>
                     </connections>
                 </viewController>

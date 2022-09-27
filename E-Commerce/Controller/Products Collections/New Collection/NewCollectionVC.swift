@@ -7,10 +7,6 @@
 
 import UIKit
 
-//protocol AddToMyFavoriteProtocol{
-//    func getFavoriteArray(favorite:[ProductsModel])
-//}
-
 class NewCollectionVC: UIViewController {
     
     
@@ -41,8 +37,7 @@ class NewCollectionVC: UIViewController {
     var myFavoritesArr = [ProductsModel]()
     var myFavoritesArrIndex = 0
     
-    
-    
+ 
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -56,11 +51,14 @@ class NewCollectionVC: UIViewController {
     
     
     @IBAction func filterBtnPressed(_ sender: UIButton) {
-        if let filterVC = storyboard?.instantiateViewController(withIdentifier: K.filterVCid) as? FilterVC{
-            filterVC.modalPresentationStyle = .overFullScreen
-            filterVC.modalTransitionStyle = .crossDissolve
+        if let filterVC = storyboard?.instantiateViewController(withIdentifier: K.filterVCid) as? FilterColorVC{
+            filterVC.modalPresentationStyle = UIModalPresentationStyle.overFullScreen
+            filterVC.modalTransitionStyle = UIModalTransitionStyle.crossDissolve
             
-            filterVC.view.backgroundColor = .black.withAlphaComponent(0.5)
+            filterVC.view.backgroundColor = UIColor.black.withAlphaComponent(0.7)
+            
+            filterVC.delegate = self
+            
             present(filterVC, animated: true)
         }
     }
@@ -342,6 +340,11 @@ extension NewCollectionVC:Typealias.collectionView_DataSourece_Delegate{
 
 //Filtering data
 extension NewCollectionVC: UsenigSortingFilterProtocol{
+    func didUserTappDoneOrCancelButton(tabBar: UITabBar?) {
+        //
+    }
+    
+    
     func didUserUseingFilter(name: String) {
         orderBtnOutlet.titleLabel?.text = " \(name)"
         orderBtnOutlet.sizeToFit()
@@ -368,6 +371,23 @@ extension NewCollectionVC: FavoriteDelegateProtocol{
         // send notification to myfavorite veiw controller to add current opbject to myFavoriteArray
         sendMyFavArrayByNotification()
     }
+    
+}
+
+extension NewCollectionVC: UsenigColorFilterProtocol{
+    func didUserTappCancelOrDoneButton(tabBar: UITabBar?) {
+        //
+    }
+    
+    func didUserUseingColorFilter(name: String?, color: UIColor?) {
+        if name != ""{
+            filterBtnOutlet.setTitle(name, for: .normal)
+        }else{
+            filterBtnOutlet.setTitle("Filter", for: .normal)
+        }
+    }
+  
+    
     
 }
 

@@ -44,7 +44,6 @@ class K {
     static let idProductDetailsCollectionCell = String(describing: ProductsDetailsCollectionViewCell.self)
     static let idSelesctSizeCollectionCell = String(describing: SelectSizeCollectionViewCell.self)
     static let idSortingByCollectionCell = String(describing: SortingByCollectionViewCell.self)
-   // static let idFavoriteCollectionCell = String(describing: FavoriteCollectionViewCell.self)
 
     
     
@@ -66,7 +65,7 @@ class K {
     static let collectionTabBarid = String(describing: CollectionTabBC.self)
     static let sortByVCid = String(describing: SortByVC.self)
     static let messgeVCid = String(describing: ChatListVC.self)
-    static let filterVCid = String(describing: FilterVC.self)
+    static let filterVCid = String(describing: FilterColorVC.self)
     static let chatVCid = String(describing: MessegesVC.self)
     static let productDetailsVCid = String(describing: ProductsDetailsVC.self)
     static let selectSizeVCid = String(describing: SelesctSizeVC.self)
