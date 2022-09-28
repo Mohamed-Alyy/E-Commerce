@@ -66,5 +66,10 @@ struct Helper {
     }
     
     
+    
+    static func convertStrinToData (image string: String) -> Data{
+        let imageData = Data(string.utf8)
+        return imageData
+    }
 
 }

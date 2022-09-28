@@ -24,15 +24,17 @@ class MyFavoritesVC: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         tabBarController?.title = "My Favorites"
         tabBarController?.tabBar.selectedItem?.title = ""
+        
+        // Get array form core data
+        myFavoritesArray =  CoreDataHelper.fetchDataFromCoreData()
+        myFavoriteCollection.reloadData()
     }
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
         registerCell()
-        reciveNotification()
-        //myFavoriteCollection.reloadData()
-       
+        //reciveNotification()
     }
    
     
@@ -94,20 +96,22 @@ class MyFavoritesVC: UIViewController {
     // MARK: - Functions
     
     //recive notification from ProductDetailsVC
-    func reciveNotification(){
-        NotificationCenter.default.addObserver(self, selector: #selector(getMyFavArrayFromNotification), name: NSNotification.Name(K.senFavoiteToMyFavoriteArrayNotificationName), object: nil)
-    }
-
-    // make myFavoriteArry = notification object ---> [ProductModel]
-    @objc func getMyFavArrayFromNotification(notification: Notification){
-        
-        let myFavArr = notification.userInfo![K.sendFinalMyFavArrayNotificationName]
-        
-        myFavoritesArray = myFavArr as! [ProductsModel]
-     
-        myFavoriteCollection.reloadData()
-    }
     
+//    func reciveNotification(){
+//        NotificationCenter.default.addObserver(self, selector: #selector(getMyFavArrayFromNotification), name: NSNotification.Name(K.senFavoiteToMyFavoriteArrayNotificationName), object: nil)
+//    }
+//
+//    // make myFavoriteArry = notification object ---> [ProductModel]
+//
+//    @objc func getMyFavArrayFromNotification(notification: Notification){
+//
+//        let myFavArr = notification.userInfo![K.sendFinalMyFavArrayNotificationName]
+//
+//        myFavoritesArray = myFavArr as! [ProductsModel]
+//
+//        myFavoriteCollection.reloadData()
+//    }
+//
     
     
     // register collection view cells
@@ -260,7 +264,9 @@ extension MyFavoritesVC: FavoriteDelegateProtocol{
     
     // remove current favorite form myFavoriteArray if xButton Tapped
     func didXbuttonTapped(favRow: Int) {
-        myFavoritesArray.remove(at: favRow)
+        //myFavoritesArray.remove(at: favRow)
+        CoreDataHelper.deleteObjectFromCoreData(index: favRow)
+        myFavoritesArray = CoreDataHelper.fetchDataFromCoreData()
         myFavoriteCollection.reloadData()
     }
     
