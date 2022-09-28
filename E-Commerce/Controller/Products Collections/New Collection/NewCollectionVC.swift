@@ -103,6 +103,22 @@ class NewCollectionVC: UIViewController {
     }
     
     
+    // send my favorites to cart and save it in core data
+    func sendMyFavoriteToCart (row: Int) {
+        // 1- Create object from array based on index row
+        let myFav = newCollectionArray[row]
+        
+        if myFav.isFavorite{
+            // 2- if this object marked as favorite save it in core data --> (IsFavorie == true)
+            CoreDataHelper.saveFavoiteToCoreData(product: myFav)
+        }else{
+            // 3- if the user remove this object from favorite delete it frome core data  --> (IsFavorie == false)
+            CoreDataHelper.deleteObjectFromCoreData(index: row)
+        }
+        productsCollection.reloadData()
+    }
+    
+    
     // Recive notification post form DetailsVC
     func reciveFavoriteNotification(){
         NotificationCenter.default.addObserver(self, selector: #selector(setFavoiteBtnImageUsengNotification), name: NSNotification.Name(K.favoriteNotificationName), object: nil)
@@ -112,53 +128,35 @@ class NewCollectionVC: UIViewController {
     // do some actions whene recive notification post from ProductDetailsVC
     @objc func setFavoiteBtnImageUsengNotification(_ notification: Notification){
         
-        // get information from notification
+        // 1- get information from notification
         guard let isFavorite = notification.userInfo![K.productIsFavoriteNotificationfName] as? Bool else {return}
         guard let productId = notification.userInfo![K.productIdNotificationfName] as? Int else {return}
         
         
         
-        // change isFavorite value in current object to set favorit button image
+        // 2- make isFavorite value in current view = IsFavorite in DeatailsVC
         for product in newCollectionArray {
             if product.id == productId {
                 newCollectionArray[productId].isFavorite = isFavorite
-                productsCollection.reloadData()
+               // productsCollection.reloadData()
             }
         }
         
-        // append current favorite object in myfavorite array that existing in NewCollectionV
+        // 3- get instance object form array based on id
         let product = newCollectionArray[productId]
         
         if product.isFavorite{
+            // if current favorite object IsFavorite == true save it in core data
             CoreDataHelper.saveFavoiteToCoreData(product: product)
-           // myFavoritesArr.append(product)
-           // myFavoritesArrIndex += 1
-            
         }else{
+            // if current favorite object IsFavorite == false delete it from core data
             CoreDataHelper.deleteObjectFromCoreData(index: productId)
-            //myFavoritesArr.remove(at: myFavoritesArrIndex - 1)
-           // myFavoritesArrIndex -= 1
         }
-        //sendMyFavArrayByNotification()
-    }
-    
-    
-    func sendMyFavoriteToCart (row: Int) {
-        // 1- Create object from array
-        let myFav = newCollectionArray[row]
         
-        if myFav.isFavorite{
-            // 2- if this object marked as favorite save it in core data
-            CoreDataHelper.saveFavoiteToCoreData(product: myFav)
-            print("object saved in core data")
-        }else{
-            // 3- if the user remove this object from favorite delete it frome core data
-            CoreDataHelper.deleteObjectFromCoreData(index: row)
-            print("object deleted from core data")
-            
-        }
         productsCollection.reloadData()
     }
+    
+
     
 }
 

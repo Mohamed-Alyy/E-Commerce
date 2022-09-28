@@ -27,6 +27,7 @@ class MyFavoritesVC: UIViewController {
         
         // Get array form core data
         myFavoritesArray =  CoreDataHelper.fetchDataFromCoreData()
+        print("myFavoritesArray.count: ",myFavoritesArray.count)
         myFavoriteCollection.reloadData()
     }
     
@@ -247,6 +248,7 @@ extension MyFavoritesVC: FavoriteDelegateProtocol{
         //myFavoritesArray.remove(at: favRow)
         CoreDataHelper.deleteObjectFromCoreData(index: favRow)
         myFavoritesArray = CoreDataHelper.fetchDataFromCoreData()
+        print("myFavoritesArray.count: ",myFavoritesArray.count)
         myFavoriteCollection.reloadData()
     }
     
