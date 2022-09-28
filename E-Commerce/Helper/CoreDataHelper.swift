@@ -51,9 +51,9 @@ struct CoreDataHelper{
             for result in results {
              
                 if let image = result.image{
-                    let stringImage = String(data: image, encoding: String.Encoding(rawValue: 0))
+                    let stringImage = Helper.converDataToString(image: image)
                     
-                    let newFav = ProductsModel(id: Int(result.id), price: Int(result.price), title: result.title!, image: stringImage!, description: result.descripe!)
+                    let newFav = ProductsModel(id: Int(result.id), price: Int(result.price), title: result.title!, image: stringImage, description: result.descripe!)
                     myFavArray.append(newFav)
                 }  
             }

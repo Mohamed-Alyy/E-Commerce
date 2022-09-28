@@ -37,7 +37,14 @@ class MyFavoritesVC: UIViewController {
         //reciveNotification()
     }
    
+    // MARK: - Proerties
     
+    var subCategoriescolleectionArray = ["T-Shirt" , "Crop Tops" , "Sleeveless" , "Blouses"]
+    
+    var myFavoritesArray : [ProductsModel] = []
+    
+    var islist = true
+
     
     
     // MARK: - Actions
@@ -82,36 +89,9 @@ class MyFavoritesVC: UIViewController {
         myFavoriteCollection.reloadData()
     }
     
-    // MARK: - Proerties
-    
-    var subCategoriescolleectionArray = ["T-Shirt" , "Crop Tops" , "Sleeveless" , "Blouses"]
-    
-    
-    var myFavoritesArray : [ProductsModel] = []
-    
-    var islist = true
 
-    //var isInBag = false
-    
     // MARK: - Functions
-    
-    //recive notification from ProductDetailsVC
-    
-//    func reciveNotification(){
-//        NotificationCenter.default.addObserver(self, selector: #selector(getMyFavArrayFromNotification), name: NSNotification.Name(K.senFavoiteToMyFavoriteArrayNotificationName), object: nil)
-//    }
-//
-//    // make myFavoriteArry = notification object ---> [ProductModel]
-//
-//    @objc func getMyFavArrayFromNotification(notification: Notification){
-//
-//        let myFavArr = notification.userInfo![K.sendFinalMyFavArrayNotificationName]
-//
-//        myFavoritesArray = myFavArr as! [ProductsModel]
-//
-//        myFavoriteCollection.reloadData()
-//    }
-//
+
     
     
     // register collection view cells

@@ -72,4 +72,9 @@ struct Helper {
         return imageData
     }
 
+    
+    static func converDataToString (image data: Data?) -> String {
+         let imageString = String(data: data!, encoding: String.Encoding(rawValue: 0))
+        return imageString!
+    }
 }
