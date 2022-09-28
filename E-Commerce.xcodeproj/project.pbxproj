@@ -36,7 +36,7 @@
 		D3B4B73728BFAAA900E3032E /* LogInVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3B4B73628BFAAA900E3032E /* LogInVC.swift */; };
 		D3B7FBAC28D7863F00A449FD /* ProductsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3B7FBAB28D7863F00A449FD /* ProductsModel.swift */; };
 		D3B8110928E354850084E910 /* CoreDataHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3B8110828E354850084E910 /* CoreDataHelper.swift */; };
-		D3B8110F28E36B890084E910 /* CartModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = D3B8110D28E36B890084E910 /* CartModel.xcdatamodeld */; };
+		D3B8110F28E36B890084E910 /* FavoritesModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = D3B8110D28E36B890084E910 /* FavoritesModel.xcdatamodeld */; };
 		D3C0BAEC28BF89C000699AF1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3C0BAEB28BF89C000699AF1 /* AppDelegate.swift */; };
 		D3C0BAEE28BF89C000699AF1 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3C0BAED28BF89C000699AF1 /* SceneDelegate.swift */; };
 		D3C0BAF328BF89C000699AF1 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D3C0BAF128BF89C000699AF1 /* Main.storyboard */; };
@@ -353,7 +353,7 @@
 				D3C0BB0028BF93C300699AF1 /* App Core */,
 				D3C0BAF928BF89C100699AF1 /* Info.plist */,
 				D3C0BAF428BF89C100699AF1 /* Assets.xcassets */,
-				D3B8110D28E36B890084E910 /* CartModel.xcdatamodeld */,
+				D3B8110D28E36B890084E910 /* FavoritesModel.xcdatamodeld */,
 			);
 			path = "E-Commerce";
 			sourceTree = "<group>";
@@ -554,7 +554,7 @@
 				D31C3C2E28D0597F00B0D27B /* FilterColorVC.swift in Sources */,
 				D3C0BB0C28BF94A100699AF1 /* Helper.swift in Sources */,
 				D3C4A72328C0873600DB78BD /* HomeCollectionVC.swift in Sources */,
-				D3B8110F28E36B890084E910 /* CartModel.xcdatamodeld in Sources */,
+				D3B8110F28E36B890084E910 /* FavoritesModel.xcdatamodeld in Sources */,
 				D3CDC29B28CFA69900F395C4 /* ChatListVC.swift in Sources */,
 				D3C4A72728C087A400DB78BD /* HomeCollectionViewCell.swift in Sources */,
 				D3D913E928CC74BE0004F2ED /* NewCollectionVC.swift in Sources */,
@@ -782,13 +782,13 @@
 /* End XCConfigurationList section */
 
 /* Begin XCVersionGroup section */
-		D3B8110D28E36B890084E910 /* CartModel.xcdatamodeld */ = {
+		D3B8110D28E36B890084E910 /* FavoritesModel.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
 				D3B8110E28E36B890084E910 /* CartModel.xcdatamodel */,
 			);
 			currentVersion = D3B8110E28E36B890084E910 /* CartModel.xcdatamodel */;
-			path = CartModel.xcdatamodeld;
+			path = FavoritesModel.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
 		};

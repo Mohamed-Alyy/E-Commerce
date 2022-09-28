@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import CoreData
 
 class MyFavoritesVC: UIViewController {
 
@@ -140,11 +141,11 @@ class MyFavoritesVC: UIViewController {
                     listFavCell.cellRow = indexPath.row
                     listFavCell.delegate=self
                     
-                    // set the bag photo
+                    // set favorite photo
                     if myFavoritesArray[indexPath.row].isFavorite{
-                        listFavCell.favoriteBtn.setImage(K.shoppingBagImage, for: .normal)
-                    }else{
                         listFavCell.favoriteBtn.setImage(K.shoppingBagRedImage, for: .normal)
+                    }else{
+                        listFavCell.favoriteBtn.setImage(K.shoppingBagImage, for: .normal)
                     }
                     
                     return listFavCell
@@ -159,23 +160,36 @@ class MyFavoritesVC: UIViewController {
                     
                     gridFavCell.cellRow = indexPath.row
                     
+                    // if user tap on x button
                     gridFavCell.xButtonTappedClousre = { [weak self ]row in
                         self?.myFavoritesArray.remove(at: row)
                         self!.myFavoriteCollection.reloadData()
+                        
+                        // delete object form core data
+                        CoreDataHelper.deleteObjectFromCoreData(index: row)
                     }
                     
-                    
+                    // if user tap on favorite button
                     gridFavCell.favoriteBtnTappedClousre = { [unowned self] row in
                         let isFavorite =  self.myFavoritesArray[row].isFavorite
                         self.myFavoritesArray[row].isFavorite = !isFavorite
+                        
+                        // update current object in core data
+                        let currentFavoriteStatus = myFavoritesArray[row].isFavorite
+                
+                        CoreDataHelper.updateObjectInCoreData(isFavorite: currentFavoriteStatus, index: row)
+                        print("currentFavorite status in Grid Cell in \(row) is: ", currentFavoriteStatus)
+                        print("current object updated")
                         self.myFavoriteCollection.reloadData()
+                        
+                        
                     }
                     
-                    // set the bag photo
+                    // set favorite photo
                     if myFavoritesArray[indexPath.row].isFavorite{
-                        gridFavCell.favoriteBtn.setImage(K.shoppingBagImage, for: .normal)
-                    }else{
                         gridFavCell.favoriteBtn.setImage(K.shoppingBagRedImage, for: .normal)
+                    }else{
+                        gridFavCell.favoriteBtn.setImage(K.shoppingBagImage, for: .normal)
                     }
                     
                     return gridFavCell
@@ -248,7 +262,7 @@ extension MyFavoritesVC: FavoriteDelegateProtocol{
         //myFavoritesArray.remove(at: favRow)
         CoreDataHelper.deleteObjectFromCoreData(index: favRow)
         myFavoritesArray = CoreDataHelper.fetchDataFromCoreData()
-        print("myFavoritesArray.count: ",myFavoritesArray.count)
+        print("myFavoritesArray.count after delete object: ",myFavoritesArray.count)
         myFavoriteCollection.reloadData()
     }
     
@@ -258,6 +272,14 @@ extension MyFavoritesVC: FavoriteDelegateProtocol{
         
         //change isFavorite value in array
         myFavoritesArray[row].isFavorite.toggle()
+        
+        let currentFavoriteStatus = myFavoritesArray[row].isFavorite
+        
+        // update favorite status in core data ---> [Still Not working 28-9-2022]
+        CoreDataHelper.updateObjectInCoreData(isFavorite: currentFavoriteStatus, index: row)
+
+        print("currentFavorite status in List Cell in \(row) is: ", currentFavoriteStatus)
+        print("current object updated")
         myFavoriteCollection.reloadData()
         
     }

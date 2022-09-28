@@ -20,7 +20,7 @@ struct CoreDataHelper{
     
     static  func saveFavoiteToCoreData(product: ProductsModel){
         // create new object in Entity (table)
-        let object = NSEntityDescription.insertNewObject(forEntityName: "Cart", into: manageContext) as! Cart
+        let object = NSEntityDescription.insertNewObject(forEntityName: "Favorites", into: manageContext) as! Favorites
        
         // set object proerties (values)
         object.id = Int16(product.id)
@@ -46,7 +46,7 @@ struct CoreDataHelper{
     
     static func fetchDataFromCoreData() -> [ProductsModel]{
         var myFavArray = [ProductsModel]()
-        let fetch = Cart.fetchRequest()
+        let fetch = Favorites.fetchRequest()
         
         do{
             let results = try manageContext.fetch(fetch)
@@ -68,7 +68,7 @@ struct CoreDataHelper{
     }
     
     static func deleteObjectFromCoreData (index: Int) {
-        let fetch = Cart.fetchRequest()
+        let fetch = Favorites.fetchRequest()
         do{
             let results = try manageContext.fetch(fetch)
             let objectForDelete = results[index]
@@ -80,16 +80,15 @@ struct CoreDataHelper{
     }
     
     
-    static func updateObjectInCoreData(model object : ProductsModel , index objectIndex: Int) {
-        let fetch = Cart.fetchRequest()
+    static func updateObjectInCoreData(isFavorite status : Bool , index objectIndex: Int) {
+       
+        let fetch = Favorites.fetchRequest()
+    
         do{
             let results = try manageContext.fetch(fetch)
             let currentObject = results[objectIndex]
-            currentObject.id = Int16(object.id)
-            currentObject.title = object.title
-            currentObject.descripe = object.description
-            currentObject.price = Int16(object.price)
-            currentObject.image = Helper.convertStrinToData(image: object.image)
+            currentObject.isFavorite = status
+            
             try manageContext.save()
         }catch{
             print(error.localizedDescription)

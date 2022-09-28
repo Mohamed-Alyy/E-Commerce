@@ -103,11 +103,10 @@ class NewCollectionVC: UIViewController {
     }
     
     
-    // send my favorites to cart and save it in core data
+    // send my favorites to cart and save it in core data when user tap on favorite button (delegate function)
     func sendMyFavoriteToCart (row: Int) {
         // 1- Create object from array based on index row
         let myFav = newCollectionArray[row]
-        
         if myFav.isFavorite{
             // 2- if this object marked as favorite save it in core data --> (IsFavorie == true)
             CoreDataHelper.saveFavoiteToCoreData(product: myFav)
@@ -353,8 +352,7 @@ extension NewCollectionVC: FavoriteDelegateProtocol{
     func didFavoriteTapped(row: Int) {
         
         newCollectionArray[row].isFavorite.toggle()
-        print("isFavorite",newCollectionArray[row].isFavorite)
-        
+        print("newCollectionArray\(row).isFavorite",newCollectionArray[row].isFavorite)
         // send current myFavoriteArr in NewCollectionVC to myFavoritesArray in MyFavoritesVC to add favorite items to Cart
         sendMyFavoriteToCart (row: row)
     
