@@ -13,8 +13,15 @@ class ShoppingBagVC: UIViewController {
     
     @IBOutlet weak var subCategoriesCollection: UICollectionView!
     
+    @IBOutlet weak var convertCollectionGridBtnOutlet: UIButton!
     
     @IBOutlet weak var myBagCollection : UICollectionView!
+    
+    @IBOutlet weak var promoCodeTF: UITextField!
+    
+    @IBOutlet weak var checkOutBtnOutlet: UIButton!
+    @IBOutlet weak var totalAmountLBL: UILabel!
+    @IBOutlet weak var totalPriceLBL: UILabel!
     
     override func viewWillAppear(_ animated: Bool) {
         tabBarController?.title = "My Bag"
@@ -24,8 +31,10 @@ class ShoppingBagVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        Helper.customViews(views: [promoCodeTF , checkOutBtnOutlet], cornerRadius: nil)
         registerCell()
     }
+    
     
 
     // MARK: - Proerties
@@ -44,14 +53,25 @@ class ShoppingBagVC: UIViewController {
     
     var islist = true
     
+    // MARK: - Actions
+    
+    @IBAction func convertCollectionGridBtnPressed(_ sender: UIButton) {
+        islist = !islist
+        myBagCollection.reloadData()
+    }
+    
+    
+    @IBAction func checkOutBtnPressed(_ sender: UIButton) {
+        
+    }
 
     // MARK: - Functions
     
     
     func registerCell(){
         subCategoriesCollection.register(UINib(nibName: K.idSubCategoriesColltionIdCell, bundle: nil), forCellWithReuseIdentifier: K.idSubCategoriesColltionIdCell)
-        myBagCollection.register(UINib(nibName: K.idListProductionCollectionCell, bundle: nil), forCellWithReuseIdentifier: K.idListProductionCollectionCell)
-        myBagCollection.register(UINib(nibName: K.idGridCollectionCell, bundle: nil), forCellWithReuseIdentifier: K.idGridCollectionCell)
+        myBagCollection.register(UINib(nibName: K.idListBagCollectionCell, bundle: nil), forCellWithReuseIdentifier: K.idListBagCollectionCell)
+        myBagCollection.register(UINib(nibName: K.idGridBagCollectionCell, bundle: nil), forCellWithReuseIdentifier: K.idGridBagCollectionCell)
         
         subCategoriesCollection.delegate=self
         subCategoriesCollection.dataSource=self
@@ -84,6 +104,7 @@ extension ShoppingBagVC: Typealias.collectionView_DataSourece_Delegate{
         switch collectionView {
             
         case self.subCategoriesCollection :
+            // return MySubCategoryCollection
             if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: K.idSubCategoriesColltionIdCell, for: indexPath) as? SubCategoriesCollectionViewCell {
                 
                 cell.newCollectionLBL.text = subCategoriescolleectionArray[indexPath.row]
@@ -92,49 +113,31 @@ extension ShoppingBagVC: Typealias.collectionView_DataSourece_Delegate{
             
         default:
             if islist {
-                
-                if let lisetCell = collectionView.dequeueReusableCell(withReuseIdentifier: K.idListProductionCollectionCell, for: indexPath) as? ListProductsCollectionViewCell {
-                    
-                    //lisetCell.delegate=self
+                // return ListBagCollection
+                convertCollectionGridBtnOutlet.setImage(UIImage(named: "list"), for: .normal)
+                if let lisetCell = collectionView.dequeueReusableCell(withReuseIdentifier: K.idListBagCollectionCell, for: indexPath) as? ListBagCollectionViewCell {
+                  
                     
                     lisetCell.titleLBL.text = products.title
-                    lisetCell.productImage.image = UIImage(named: products.image)
                     lisetCell.priceLBL.text = "$ \(products.price)"
-                    lisetCell.descriptionLBL.text = "\(products.id)" //products.description
-                    
-                    lisetCell.cellRow = indexPath.row
-                    
-                    if products.isFavorite{
-                        lisetCell.favoriteBtn.setImage(K.isFavoriteImage, for: .normal)
-                    }else{
-                        lisetCell.favoriteBtn.setImage(K.notFavoriteImage, for: .normal)
-                    }
+                    lisetCell.descriptionLBL.text = "\(products.description)"
+                    lisetCell.bagImage.image = UIImage(named: products.image)
+                 
                     
                    
                     return lisetCell
                 }
             }else{
-                if let gridCell = collectionView.dequeueReusableCell(withReuseIdentifier: K.idGridCollectionCell, for: indexPath) as? GridCollectionViewCell{
+                // return GridBagCollection
+                convertCollectionGridBtnOutlet.setImage(UIImage(named: "grid"), for: .normal)
+                if let gridCell = collectionView.dequeueReusableCell(withReuseIdentifier: K.idGridBagCollectionCell, for: indexPath) as? GridBagCollectionViewCell{
                     
-                    gridCell.productImageView.image = UIImage(named: products.image)
+                    gridCell.productImage.image = UIImage(named: products.image)
                     gridCell.priceLBL.text = "$ \(products.price)"
-                    gridCell.produtsTitlLBL.text = products.title
+                    gridCell.titleLBL.text = products.title
                     gridCell.descriptionLBL.text = products.description
                     
-                    gridCell.cellRow = indexPath.row
-                    
-//                    gridCell.favoriteBtnTappedClousre = { [unowned self] row in
-//                        let isFavorite =  self.productsArray[row].isFavorite
-//                        self.productsArray[row].isFavorite = !isFavorite
-//                        self.productsCollection.reloadData()
-//
-//                    }
-                    
-                    if products.isFavorite{
-                        gridCell.favoriteBtn.setImage(K.isFavoriteImage, for: .normal)
-                    }else{
-                        gridCell.favoriteBtn.setImage(K.notFavoriteImage, for: .normal)
-                    }
+  
                     return gridCell
                 }
             }
@@ -159,10 +162,10 @@ extension ShoppingBagVC: Typealias.collectionView_DataSourece_Delegate{
             
             if islist == true {
                // convertCollectionGridOutlet.setImage(UIImage(named: "list"), for: .normal)
-                return CGSize(width: width , height: height / 4)
+                return CGSize(width: width , height: height / 3)
             } else {
                 // convertCollectionGridOutlet.setImage(UIImage(named: "grid"), for: .normal)
-                return CGSize(width: width / 2  , height: height * 0.5)
+                return CGSize(width: width / 2  , height: height * 0.7)
             }
             
         default:

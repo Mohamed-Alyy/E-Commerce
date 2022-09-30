@@ -21,19 +21,19 @@ struct CoreDataHelper{
     static  func saveFavoiteToCoreData(product: ProductsModel){
         // create new object in Entity (table)
         let object = NSEntityDescription.insertNewObject(forEntityName: "Favorites", into: manageContext) as! Favorites
-       
+        
         // set object proerties (values)
-        object.id = Int16(product.id)
-        object.price = Int16(product.price)
-        object.title = product.title
-        object.descripe = product.description
-        object.isFavorite = product.isFavorite
+            object.id = Int16(product.id)
+            object.price = Int16(product.price)
+            object.title = product.title
+            object.descripe = product.description
+            object.isFavorite = product.isFavorite
 
-        //Convert image string to data to save it in core data
-        object.image = Helper.convertStrinToData(image: product.image)
-        
-        
-        // save data
+            //Convert image string to data to save it in core data
+            object.image = Helper.convertStrinToData(image: product.image)
+         //   manageContext.insert(object)
+         
+         //save data
         do{
             try  manageContext.save()
         }catch{

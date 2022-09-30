@@ -58,6 +58,10 @@
 		D3D913E928CC74BE0004F2ED /* NewCollectionVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3D913E828CC74BE0004F2ED /* NewCollectionVC.swift */; };
 		D3D913EC28CC848C0004F2ED /* ListProductsCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3D913EA28CC848C0004F2ED /* ListProductsCollectionViewCell.swift */; };
 		D3D913ED28CC848C0004F2ED /* ListProductsCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D3D913EB28CC848C0004F2ED /* ListProductsCollectionViewCell.xib */; };
+		D3E34CE528E69673006FAA93 /* ListBagCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3E34CE328E69673006FAA93 /* ListBagCollectionViewCell.swift */; };
+		D3E34CE628E69673006FAA93 /* ListBagCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D3E34CE428E69673006FAA93 /* ListBagCollectionViewCell.xib */; };
+		D3E34CF128E6B7DD006FAA93 /* GridBagCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3E34CEF28E6B7DD006FAA93 /* GridBagCollectionViewCell.swift */; };
+		D3E34CF228E6B7DD006FAA93 /* GridBagCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D3E34CF028E6B7DD006FAA93 /* GridBagCollectionViewCell.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -114,6 +118,10 @@
 		D3D913E828CC74BE0004F2ED /* NewCollectionVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewCollectionVC.swift; sourceTree = "<group>"; };
 		D3D913EA28CC848C0004F2ED /* ListProductsCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListProductsCollectionViewCell.swift; sourceTree = "<group>"; };
 		D3D913EB28CC848C0004F2ED /* ListProductsCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ListProductsCollectionViewCell.xib; sourceTree = "<group>"; };
+		D3E34CE328E69673006FAA93 /* ListBagCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListBagCollectionViewCell.swift; sourceTree = "<group>"; };
+		D3E34CE428E69673006FAA93 /* ListBagCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ListBagCollectionViewCell.xib; sourceTree = "<group>"; };
+		D3E34CEF28E6B7DD006FAA93 /* GridBagCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridBagCollectionViewCell.swift; sourceTree = "<group>"; };
+		D3E34CF028E6B7DD006FAA93 /* GridBagCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = GridBagCollectionViewCell.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -195,6 +203,7 @@
 			isa = PBXGroup;
 			children = (
 				D35662EE28DC111E006CE822 /* ShoppingBagVC.swift */,
+				D3E34CE228E69643006FAA93 /* Cell */,
 			);
 			path = Bag;
 			sourceTree = "<group>";
@@ -442,6 +451,33 @@
 			path = Cell;
 			sourceTree = "<group>";
 		};
+		D3E34CE228E69643006FAA93 /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				D3E34CE828E6B769006FAA93 /* Grid */,
+				D3E34CE728E6B740006FAA93 /* List */,
+			);
+			path = Cell;
+			sourceTree = "<group>";
+		};
+		D3E34CE728E6B740006FAA93 /* List */ = {
+			isa = PBXGroup;
+			children = (
+				D3E34CE328E69673006FAA93 /* ListBagCollectionViewCell.swift */,
+				D3E34CE428E69673006FAA93 /* ListBagCollectionViewCell.xib */,
+			);
+			path = List;
+			sourceTree = "<group>";
+		};
+		D3E34CE828E6B769006FAA93 /* Grid */ = {
+			isa = PBXGroup;
+			children = (
+				D3E34CEF28E6B7DD006FAA93 /* GridBagCollectionViewCell.swift */,
+				D3E34CF028E6B7DD006FAA93 /* GridBagCollectionViewCell.xib */,
+			);
+			path = Grid;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -507,6 +543,7 @@
 				D3C0BAF828BF89C100699AF1 /* LaunchScreen.storyboard in Resources */,
 				D3C0BAF528BF89C100699AF1 /* Assets.xcassets in Resources */,
 				D3D913E728CC73590004F2ED /* SubCategoriesCollectionViewCell.xib in Resources */,
+				D3E34CF228E6B7DD006FAA93 /* GridBagCollectionViewCell.xib in Resources */,
 				D37DE24128D7081300021CE4 /* SortingByCollectionViewCell.xib in Resources */,
 				D366C1C728D3A5DA00D3EB5E /* SelectSizeCollectionViewCell.xib in Resources */,
 				D32AFF3E28D1F32B00B8AA20 /* ProductsDetailsCollectionViewCell.xib in Resources */,
@@ -515,6 +552,7 @@
 				D3D913ED28CC848C0004F2ED /* ListProductsCollectionViewCell.xib in Resources */,
 				D3C0BAF328BF89C000699AF1 /* Main.storyboard in Resources */,
 				D31C3C3828D05D9A00B0D27B /* CategoryCollectionViewCell.xib in Resources */,
+				D3E34CE628E69673006FAA93 /* ListBagCollectionViewCell.xib in Resources */,
 				D3CDC2A028CFA7CB00F395C4 /* ChatTableViewCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -529,10 +567,12 @@
 				D3C4A72E28C3791A00DB78BD /* CollectionTabBC.swift in Sources */,
 				D3D913E628CC73590004F2ED /* SubCategoriesCollectionViewCell.swift in Sources */,
 				D386114B28D118BB00AEC97D /* MessegesVC.swift in Sources */,
+				D3E34CE528E69673006FAA93 /* ListBagCollectionViewCell.swift in Sources */,
 				D3CDC29F28CFA7CB00F395C4 /* ChatTableViewCell.swift in Sources */,
 				D3B8110928E354850084E910 /* CoreDataHelper.swift in Sources */,
 				D3C0BAEC28BF89C000699AF1 /* AppDelegate.swift in Sources */,
 				D37DE24428D7084F00021CE4 /* SortingByVC.swift in Sources */,
+				D3E34CF128E6B7DD006FAA93 /* GridBagCollectionViewCell.swift in Sources */,
 				D39A793D28D633BE00669542 /* ProfileViC.swift in Sources */,
 				D3D913EC28CC848C0004F2ED /* ListProductsCollectionViewCell.swift in Sources */,
 				D365378D28CDF929006436DA /* GridCollectionViewCell.swift in Sources */,

@@ -18,6 +18,8 @@ class K {
     static let isFavoriteImage = UIImage(named: "favorite.fill")
     static let shoppingBagImage = UIImage(named: "circleBagWhite")
     static let shoppingBagRedImage = UIImage(named: "circleBagRed")
+    static let listImage = UIImage(named: "list")
+    static let gridImage = UIImage(named: "gird")
     
     // Product Details Notification names properties
     static let favoriteNotificationName = "com.favoriteNotification"
@@ -44,7 +46,8 @@ class K {
     static let idProductDetailsCollectionCell = String(describing: ProductsDetailsCollectionViewCell.self)
     static let idSelesctSizeCollectionCell = String(describing: SelectSizeCollectionViewCell.self)
     static let idSortingByCollectionCell = String(describing: SortingByCollectionViewCell.self)
-
+    static let idListBagCollectionCell = String(describing: ListBagCollectionViewCell.self)
+    static let idGridBagCollectionCell = String(describing: GridBagCollectionViewCell.self)
     
     
     // MARK: - Table View Cells Ids
