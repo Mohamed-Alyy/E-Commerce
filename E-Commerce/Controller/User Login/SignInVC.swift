@@ -11,8 +11,8 @@ class SignInVC: UIViewController {
     
     // MARK: - OUTLETS
     
-    @IBOutlet weak var nameTF: UITextField!
     @IBOutlet weak var emailTF: UITextField!
+    @IBOutlet weak var userNameTF: UITextField!
     @IBOutlet weak var passwordTF: UITextField!
     @IBOutlet weak var signInBtnOutlet: UIButton!
     @IBOutlet weak var haveAccoutLBL: UILabel!
@@ -20,7 +20,7 @@ class SignInVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        Helper.customViews(views: [nameTF,emailTF,passwordTF,signInBtnOutlet], cornerRadius: 0.2)
+        Helper.customViews(views: [userNameTF,emailTF,passwordTF,signInBtnOutlet], cornerRadius: 0.2)
         addGasturTap()
         
     }

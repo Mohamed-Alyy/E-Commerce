@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Kingfisher
 
 class ProductsDetailsVC: UIViewController {
     
@@ -14,23 +15,20 @@ class ProductsDetailsVC: UIViewController {
     @IBOutlet weak var productDetailsImagesCollectionView: UICollectionView!
     @IBOutlet weak var suggestedProductsCollectionView: UICollectionView!
 
-    
     @IBOutlet weak var addToCartBtnOutlet: UIButton!
     
     @IBOutlet weak var favoriteBtnOutlet: UIButton!
     
-    @IBOutlet weak var sizeView: UIView!{
-        didSet{
-            sizeView.layer.borderWidth = 1
-            sizeView.layer.cornerRadius = 10
-        }
-    }
-    @IBOutlet weak var colorView: UIView!{
-        didSet{
-            colorView.layer.borderWidth = 1
-            colorView.layer.cornerRadius = 10
-        }
-    }
+    @IBOutlet weak var sizeView: UIView!
+    @IBOutlet weak var colorView: UIView!
+    
+    
+    @IBOutlet weak var titleLBL: UILabel!
+    
+    @IBOutlet weak var descriptionLBL: UILabel!
+    @IBOutlet weak var priceLBL: UILabel!
+    
+    
     
     override func viewWillAppear(_ animated: Bool) {
         
@@ -54,6 +52,10 @@ class ProductsDetailsVC: UIViewController {
     
     override func viewDidLayoutSubviews() {
         Helper.customViews(views: [addToCartBtnOutlet], cornerRadius: nil)
+        colorView.layer.borderWidth = 1
+        colorView.layer.cornerRadius = 10
+        sizeView.layer.borderWidth = 1
+        sizeView.layer.cornerRadius = 10
     }
     
     
@@ -63,7 +65,7 @@ class ProductsDetailsVC: UIViewController {
     
     var currentRow = 0
     
-    var productDetails: ProductsModel?
+    var productDetails: Product?
     
     var suggestedProductsImagesArray = [#imageLiteral(resourceName: "candles") , #imageLiteral(resourceName: "candles"), #imageLiteral(resourceName: "candles") , #imageLiteral(resourceName: "candles") ]
     
@@ -92,7 +94,7 @@ class ProductsDetailsVC: UIViewController {
     
     @IBAction func favoriteBtnPressed(_ sender: UIButton) {
       
-        productDetails?.isFavorite.toggle()
+      //  productDetails?.isFavorite.toggle()
         setFavoiteBtnImage()
         sendFavoriteNotification()
         
@@ -106,23 +108,23 @@ class ProductsDetailsVC: UIViewController {
 
     // set image for favorite button
     func setFavoiteBtnImage(){
-        if productDetails?.isFavorite == false{
-            favoriteBtnOutlet.setImage(K.notFavoriteImage, for: .normal)
-        }else{
-            favoriteBtnOutlet.setImage(K.isFavoriteImage, for: .normal)
-        }
+//        if productDetails?.isFavorite == false{
+//            favoriteBtnOutlet.setImage(K.notFavoriteImage, for: .normal)
+//        }else{
+//            favoriteBtnOutlet.setImage(K.isFavoriteImage, for: .normal)
+//        }
     }
     
     // set isFavorite in newCollection view controller
     func sendFavoriteNotification(){
         
-        guard let isFavorite = productDetails?.isFavorite else {return}
+       // guard let isFavorite = productDetails?.isFavorite else {return}
         guard let productId = productDetails?.id else {return}
      
         
-        let userInfo : [String: Any] = [K.productIsFavoriteNotificationfName : isFavorite, K.productIdNotificationfName: productId]
+       // let userInfo : [String: Any] = [K.productIsFavoriteNotificationfName : isFavorite, K.productIdNotificationfName: productId]
         
-        NotificationCenter.default.post(name: NSNotification.Name(K.favoriteNotificationName), object: nil, userInfo: userInfo)
+       // NotificationCenter.default.post(name: NSNotification.Name(K.favoriteNotificationName), object: nil, userInfo: userInfo)
     }
     
     // register collection view cells
@@ -148,7 +150,7 @@ extension ProductsDetailsVC : Typealias.collectionView_DataSourece_Delegate{
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         switch collectionView{
         case productDetailsImagesCollectionView:
-            return [productDetails].count + 2
+            return [productDetails].count
         case suggestedProductsCollectionView:
             return suggestedProductsImagesArray.count
         default:
@@ -161,7 +163,13 @@ extension ProductsDetailsVC : Typealias.collectionView_DataSourece_Delegate{
         switch collectionView {
         case productDetailsImagesCollectionView :
             if let productsCell = collectionView.dequeueReusableCell(withReuseIdentifier: K.idProductDetailsCollectionCell, for: indexPath) as? ProductsDetailsCollectionViewCell {
-                productsCell.produtImageView.image = UIImage(named: productDetails!.image)
+                
+                if let imageUrl = URL(string: productDetails!.image) {
+                    productsCell.produtImageView.kf.setImage(with: imageUrl)
+                }
+                titleLBL.text = productDetails?.title
+                descriptionLBL.text = productDetails?.productDescription
+                priceLBL.text = "$\(productDetails!.price)"
                 
                 return productsCell
             }
@@ -187,7 +195,7 @@ extension ProductsDetailsVC : Typealias.collectionView_DataSourece_Delegate{
         
         switch collectionView{
         case productDetailsImagesCollectionView:
-            return CGSize(width: width * 0.75, height: height)
+            return CGSize(width: width , height: height)
         case suggestedProductsCollectionView:
             return CGSize(width: width / 2 , height: height)
         default:

@@ -10,6 +10,15 @@ import UIKit
 
 class K {
     
+    // MARK: - Api urls
+    
+    static let  urlAddNewUser = "https://fakestoreapi.com/users"
+    static let  urlUserLogin  = "https://fakestoreapi.com/auth/login"
+    static let  urlGetAllProducts = "https://fakestoreapi.com/products"
+    static let  urlGetAllCarts = "https://fakestoreapi.com/carts"
+
+    
+    
     // MARK: - Constant property
     
     

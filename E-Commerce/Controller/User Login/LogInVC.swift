@@ -6,12 +6,13 @@
 //
 
 import UIKit
+import Alamofire
 
 class LogInVC: UIViewController {
 
     // MARK: - OUTLETS
     
-    @IBOutlet weak var emailTF: UITextField!
+    @IBOutlet weak var userNameTF: UITextField!
     @IBOutlet weak var passwordTF: UITextField!
     @IBOutlet weak var logInBtnOutlet: UIButton!
     @IBOutlet weak var forgotPasswordLBL: UILabel!
@@ -20,9 +21,16 @@ class LogInVC: UIViewController {
         super.viewDidLoad()
         
     }
-   
+    
+    // MARK: - Actions
+    
+    
+    @IBAction func loginBtnPressed(_ sender: UIButton) {
+        login()
+    }
+    
     override func viewWillLayoutSubviews() {
-        Helper.customViews(views: [emailTF,passwordTF,logInBtnOutlet], cornerRadius: 0.2)
+        Helper.customViews(views: [userNameTF,passwordTF,logInBtnOutlet], cornerRadius: 0.2)
         addGasturTap()
         navigationController?.navigationBar.topItem?.backButtonTitle = ""
         
@@ -54,4 +62,28 @@ class LogInVC: UIViewController {
     }
 
 
+    
+    func login(){
+        guard  !userNameTF.text!.isEmpty && !passwordTF.text!.isEmpty else {return}
+        
+        let parameters: [String: Any] = ["username": userNameTF.text! , "password" : passwordTF.text!]
+        
+        AF.request(K.urlUserLogin, method: .post, parameters: parameters, encoding: JSONEncoding.default).responseDecodable(of: Login.self) { response in
+    
+            switch response.result {
+            case .success(let data):
+                let VC = UIStoryboard(name: K.productiosStoryboardId, bundle: nil).instantiateViewController(withIdentifier: K.collectionTabBarid) as! CollectionTabBC
+               // UserDefaults.setValue(data.token, forKey: "usertoken")
+                //guard  data.token != nil else {return}
+                UserDefaults.standard.set(data.token, forKey: "userToken")
+                print(data.token)
+                self.navigationController?.pushViewController(VC, animated: true)
+                
+            case.failure(let error):
+                print(error)
+            }
+     
+        
+        }
+    }
 }

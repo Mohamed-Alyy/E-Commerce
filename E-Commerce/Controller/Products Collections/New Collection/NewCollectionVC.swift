@@ -7,6 +7,8 @@
 
 import UIKit
 import CoreData
+import Kingfisher
+import NVActivityIndicatorView
 
 class NewCollectionVC: UIViewController {
     
@@ -19,20 +21,15 @@ class NewCollectionVC: UIViewController {
     @IBOutlet weak var filterBtnOutlet: UIButton!
     @IBOutlet weak var orderBtnOutlet: UIButton!
     
+    @IBOutlet weak var looderView: NVActivityIndicatorView!
     
     
     // MARK: - Proerties
     
     var subCategoriescolleectionArray = ["T-Shirt" , "Crop Tops" , "Sleeveless" , "Blouses"]
+    var productsCollectionArray = [Product]()
     
-    var newCollectionArray: [ProductsModel] = [
-        ProductsModel(id: 0, price: 51, title: "Pullover", image: "Pullover", description: "Mango"),
-        ProductsModel(id: 1, price: 34, title: "Blouse", image: "Blouse", description: "Dorothy Perkins"),
-        ProductsModel(id: 2, price: 12, title: "T-shirt", image: "T-shirt", description: "Lost link"),
-        ProductsModel(id: 3, price: 51, title: "Shirt", image: "Shirt", description: "Topshop"),
-        ProductsModel(id: 4, price: 43, title: "Light blouse", image: "Light blouse", description: "Dorothy Perkins"),
-        ProductsModel(id: 5, price: 43, title: "Top blouse", image: "Top blouse", description: "Dorothy Perkins")
-    ]
+
     
     var islist = true
 //    var myFavoritesArrIndex = 0
@@ -44,6 +41,9 @@ class NewCollectionVC: UIViewController {
         super.viewDidLoad()
         registerProsucstCell()
         reciveFavoriteNotification()
+        getProductsFromApi()
+      
+
     }
     
     
@@ -86,6 +86,16 @@ class NewCollectionVC: UIViewController {
     
     // MARK: - Functions
     
+
+    func getProductsFromApi () {
+        looderView.startAnimating()
+        ApiCall.fetchData(url: K.urlGetAllProducts, method: .get, parameter: nil, headers: nil) { (data : [Product]? , error) in
+            self.productsCollectionArray = data!
+            self.productsCollection.reloadData()
+            self.looderView.stopAnimating()
+        }
+    }
+
  
     // Register Cell in CollectionView
     func registerProsucstCell () {
@@ -105,19 +115,20 @@ class NewCollectionVC: UIViewController {
     
     
     // send my favorites to cart and save it in core data when user tap on favorite button (delegate function)
-    func saveMyFavoritesInCoreData (row: Int) {
-        // 1- Create object from array based on index row
-        let myFav = newCollectionArray[row]
-        if myFav.isFavorite{
-            
-            // 2- if this object marked as favorite save it in core data --> (IsFavorie == true)
-            CoreDataHelper.saveFavoiteToCoreData(product: myFav)
-        }else{
-            // 3- if the user remove this object from favorite delete it frome core data  --> (IsFavorie == false)
-            CoreDataHelper.deleteObjectFromCoreData(index: row)
-        }
-        productsCollection.reloadData()
-    }
+    
+//    func saveMyFavoritesInCoreData (row: Int) {
+//        // 1- Create object from array based on index row
+//        let myFav = newCollectionArray![row]
+//        if myFav.isFavorite{
+//
+//            // 2- if this object marked as favorite save it in core data --> (IsFavorie == true)
+//           // CoreDataHelper.saveFavoiteToCoreData(product: myFav)
+//        }else{
+//            // 3- if the user remove this object from favorite delete it frome core data  --> (IsFavorie == false)
+//            CoreDataHelper.deleteObjectFromCoreData(index: row)
+//        }
+//        productsCollection.reloadData()
+//    }
     
     
     // Recive notification post form DetailsVC
@@ -127,6 +138,7 @@ class NewCollectionVC: UIViewController {
     
     
     // do some actions whene recive notification post from ProductDetailsVC
+    
     @objc func setFavoiteBtnImageUsengNotification(_ notification: Notification){
         
         // 1- get information from notification
@@ -136,25 +148,27 @@ class NewCollectionVC: UIViewController {
         
         
         // 2- make isFavorite value in current view = IsFavorite in DeatailsVC
-        for product in newCollectionArray {
-            if product.id == productId {
-                newCollectionArray[productId].isFavorite = isFavorite
-               // productsCollection.reloadData()
-            }
-        }
+        
+//        for product in [newCollectionArray] {
+//            if product.id == productId {
+//                newCollectionArray[productId].isFavorite = isFavorite
+//               // productsCollection.reloadData()
+//            }
+//        }
         
         // 3- get instance object form array based on id
-        let product = newCollectionArray[productId]
         
-        if product.isFavorite{
-            // if current favorite object IsFavorite == true save it in core data
-            CoreDataHelper.saveFavoiteToCoreData(product: product)
-        }else{
-            // if current favorite object IsFavorite == false delete it from core data
-            CoreDataHelper.deleteObjectFromCoreData(index: productId)
-        }
-        
-        productsCollection.reloadData()
+//        let product = newCollectionArray![productId]
+//
+//        if product.isFavorite{
+//            // if current favorite object IsFavorite == true save it in core data
+//            CoreDataHelper.saveFavoiteToCoreData(product: product)
+//        }else{
+//            // if current favorite object IsFavorite == false delete it from core data
+//            CoreDataHelper.deleteObjectFromCoreData(index: productId)
+//        }
+//
+//        productsCollection.reloadData()
     }
     
 
@@ -166,100 +180,112 @@ class NewCollectionVC: UIViewController {
 
 extension NewCollectionVC:Typealias.collectionView_DataSourece_Delegate{
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        
         switch collectionView{
         case self.subCategoriesCollection :
             return subCategoriescolleectionArray.count
             
         case self.productsCollection :
-            return newCollectionArray.count
+//            if let count = newCollectionArray?.count {
+//                return count
+//            }
+            return  productsCollectionArray.count
+            
         default:
             return 0
         }
-        
+      
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        
-        let products = newCollectionArray[indexPath.row]
-        
         
         switch collectionView {
             
         case self.subCategoriesCollection :
             if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: K.idSubCategoriesColltionIdCell, for: indexPath) as? SubCategoriesCollectionViewCell {
-                
                 cell.newCollectionLBL.text = subCategoriescolleectionArray[indexPath.row]
                 return cell
             }
-            
-        default:
-            if islist {
+    
+            default:
+            let currentProduc = productsCollectionArray[indexPath.row]
+                if islist {
+
+                    if let lisetCell = collectionView.dequeueReusableCell(withReuseIdentifier: K.idListProductionCollectionCell, for: indexPath) as? ListProductsCollectionViewCell {
+                        
+                        lisetCell.titleLBL.text = currentProduc.title
+                        lisetCell.priceLBL.text = "$ \(currentProduc.price)"
+                        lisetCell.descriptionLBL.text = "\(currentProduc.productDescription)"
+                        
+                        if let imageUrl = URL(string: currentProduc.image){
+                            lisetCell.productImage.kf.setImage(with: imageUrl)
+                        }
                 
-                if let lisetCell = collectionView.dequeueReusableCell(withReuseIdentifier: K.idListProductionCollectionCell, for: indexPath) as? ListProductsCollectionViewCell {
-                  
-                    lisetCell.titleLBL.text = products.title
-                    lisetCell.productImage.image = UIImage(named: products.image)
-                    lisetCell.priceLBL.text = "$ \(products.price)"
-                    lisetCell.descriptionLBL.text = "\(products.id)" //products.description
-                    // hide x button
-                    lisetCell.xBtnOUtlet.isHidden = true
-                    
-                    lisetCell.cellRow = indexPath.row
-                    lisetCell.delegate=self
-                    
-                    if products.isFavorite{
-                        lisetCell.favoriteBtn.setImage(K.isFavoriteImage, for: .normal)
-                    }else{
-                        lisetCell.favoriteBtn.setImage(K.notFavoriteImage, for: .normal)
-                    }
-                    
-                    
-                    return lisetCell
-                }
-            }else{
-                if let gridCell = collectionView.dequeueReusableCell(withReuseIdentifier: K.idGridCollectionCell, for: indexPath) as? GridCollectionViewCell{
-                    
-                    gridCell.productImageView.image = UIImage(named: products.image)
-                    gridCell.priceLBL.text = "$ \(products.price)"
-                    gridCell.produtsTitlLBL.text = products.title
-                    gridCell.descriptionLBL.text = products.description
-                    
-                    // hide x button
-                    gridCell.xBtnOutlet.isHidden = true
-                    
-                    gridCell.cellRow = indexPath.row
-                    
-                    gridCell.favoriteBtnTappedClousre = { [unowned self] row in
-                        let isFavorite =  self.newCollectionArray[row].isFavorite
-                        self.newCollectionArray[row].isFavorite = !isFavorite
                         
-                        // send current myFavoriteArr in NewCollectionVC to myFavoritesArray in MyFavoritesVC to add favorite items to Caart
-                     //   sendMyFavoriteToCart(array: <#[ProductsModel]#>, row: indexPath.row)
-                        // send notification to myfavorite veiw controller to add current opbject to myFavoriteArray
-                       // sendMyFavArrayByNotification()
-                        
-                        self.productsCollection.reloadData()
-                        
+                        // hide x button
+                        lisetCell.xBtnOUtlet.isHidden = true
+
+                        lisetCell.cellRow = indexPath.row
+                        lisetCell.delegate=self
+
+    //                    if products.isFavorite{
+    //                        lisetCell.favoriteBtn.setImage(K.isFavoriteImage, for: .normal)
+    //                    }else{
+    //                        lisetCell.favoriteBtn.setImage(K.notFavoriteImage, for: .normal)
+    //                    }
+
+
+                        return lisetCell
                     }
-                    
-                    if products.isFavorite{
-                        gridCell.favoriteBtn.setImage(K.isFavoriteImage, for: .normal)
-                    }else{
-                        gridCell.favoriteBtn.setImage(K.notFavoriteImage, for: .normal)
-                    }
-                    return gridCell
-                }
+                }else{
+                    if let gridCell = collectionView.dequeueReusableCell(withReuseIdentifier: K.idGridCollectionCell, for: indexPath) as? GridCollectionViewCell{
+                       
+                        gridCell.priceLBL.text = "$ \(currentProduc.price)"
+                        gridCell.produtsTitlLBL.text = currentProduc.title
+                        gridCell.descriptionLBL.text = currentProduc.productDescription
+                        
+                        if let imageUrl = URL(string: currentProduc.image){
+                            gridCell.productImageView.kf.setImage(with: imageUrl)
+                        }
                 
+
+                        // hide x button
+                        gridCell.xBtnOutlet.isHidden = true
+
+                        gridCell.cellRow = indexPath.row
+
+    //                    gridCell.favoriteBtnTappedClousre = { [unowned self] row in
+    //                        let isFavorite =  self.newCollectionArray[row].isFavorite
+    //                        self.newCollectionArray[row].isFavorite = !isFavorite
+    //
+    //                        // send current myFavoriteArr in NewCollectionVC to myFavoritesArray in MyFavoritesVC to add favorite items to Caart
+    //                     //   sendMyFavoriteToCart(array: [ProductsModel], row: indexPath.row)
+    //                        // send notification to myfavorite veiw controller to add current opbject to myFavoriteArray
+    //                       // sendMyFavArrayByNotification()
+    //
+    //                        self.productsCollection.reloadData()
+    //
+    //                    }
+
+    //                    if products.isFavorite{
+    //                        gridCell.favoriteBtn.setImage(K.isFavoriteImage, for: .normal)
+    //                    }else{
+    //                        gridCell.favoriteBtn.setImage(K.notFavoriteImage, for: .normal)
+    //                    }
+                        return gridCell
+                    }
+
+                }
+
+
             }
-            
-            
-        }
-        
+//
         return UICollectionViewCell()
     }
     
+    
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let currentProduct = newCollectionArray[indexPath.row]
+        let currentProduct = productsCollectionArray[indexPath.row]
         switch collectionView {
         case productsCollection:
             if let productDeailsVC = storyboard?.instantiateViewController(withIdentifier: K.productDetailsVCid) as? ProductsDetailsVC {
@@ -274,6 +300,7 @@ extension NewCollectionVC:Typealias.collectionView_DataSourece_Delegate{
         }
         
     }
+    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
         let width = collectionView.frame.width , height = collectionView.frame.height
@@ -332,8 +359,8 @@ extension NewCollectionVC:Typealias.collectionView_DataSourece_Delegate{
 extension NewCollectionVC: FavoriteDelegateProtocol{
     
     func didFavoriteTapped(row: Int) {
-        newCollectionArray[row].isFavorite.toggle()
-        saveMyFavoritesInCoreData(row: row)
+//        newCollectionArray[row].isFavorite.toggle()
+//        saveMyFavoritesInCoreData(row: row)
     }
     
     

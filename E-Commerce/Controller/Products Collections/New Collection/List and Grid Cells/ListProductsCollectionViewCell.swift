@@ -17,15 +17,16 @@ class ListProductsCollectionViewCell: UICollectionViewCell{
     
     @IBOutlet weak var subCollecBgroundView: UIView!
     
+    @IBOutlet weak var titleLBL: UILabel!
+    @IBOutlet weak var descriptionLBL: UILabel!
+    @IBOutlet weak var priceLBL: UILabel!
     @IBOutlet weak var productImage: UIImageView!
     @IBOutlet weak var rateingImageView: UIImageView!
     
     @IBOutlet weak var favoriteBtn: UIButton!
     @IBOutlet weak var xBtnOUtlet: UIButton!
     
-    @IBOutlet weak var titleLBL: UILabel!
-    @IBOutlet weak var descriptionLBL: UILabel!
-    @IBOutlet weak var priceLBL: UILabel!
+  
     
     
     

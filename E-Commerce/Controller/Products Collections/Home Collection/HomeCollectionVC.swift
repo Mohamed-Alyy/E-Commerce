@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Alamofire
 
 class HomeCollectionVC: UIViewController {
     
@@ -25,8 +26,7 @@ class HomeCollectionVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         registerCell()
-        
-        
+
     }
  
     
@@ -39,11 +39,14 @@ class HomeCollectionVC: UIViewController {
     
     // MARK: - Functions
     
+    
     func registerCell (){
         homeCollectionView.register(UINib(nibName:K.idHomeCollectionIdCell, bundle: nil), forCellWithReuseIdentifier: K.idHomeCollectionIdCell)
         homeCollectionView.delegate = self
         homeCollectionView.dataSource = self
     }
+    
+ 
 
 }
 
@@ -70,9 +73,6 @@ extension HomeCollectionVC:Typealias.collectionView_DataSourece_Delegate{
             let newCollectionVC = storyboard?.instantiateViewController(withIdentifier: K.newCollectionVCid) as! NewCollectionVC
             
             newCollectionVC.title = newCollectionTitle[indexPath.row]
-            //newCollectionVC.navigationItem.backButtonTitle = "للخلف"
-            
-            
             navigationController?.pushViewController(newCollectionVC, animated: true)
         }
     }
