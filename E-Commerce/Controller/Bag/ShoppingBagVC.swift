@@ -41,16 +41,6 @@ class ShoppingBagVC: UIViewController {
     
     var subCategoriescolleectionArray = ["T-Shirt" , "Crop Tops" , "Sleeveless" , "Blouses"]
     
-    
-    var myBagArray: [ProductsModel] = [
-        ProductsModel(id: 0, price: 51, title: "Pullover", image: "Pullover", description: "Mango"),
-        ProductsModel(id: 1, price: 34, title: "Blouse", image: "Blouse", description: "Dorothy Perkins"),
-        ProductsModel(id: 2, price: 12, title: "T-shirt", image: "T-shirt", description: "Lost link"),
-        ProductsModel(id: 3, price: 51, title: "Shirt", image: "Shirt", description: "Topshop"),
-        ProductsModel(id: 4, price: 43, title: "Light blouse", image: "Light blouse", description: "Dorothy Perkins"),
-        ProductsModel(id: 5, price: 43, title: "Top blouse", image: "Top blouse", description: "Dorothy Perkins")
-    ]
-    
     var islist = true
     
     // MARK: - Actions
@@ -91,14 +81,14 @@ extension ShoppingBagVC: Typealias.collectionView_DataSourece_Delegate{
             return subCategoriescolleectionArray.count
             
         case self.myBagCollection :
-            return myBagArray.count
+            return 0
         default:
             return 0
         }
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let products = myBagArray[indexPath.row]
+      //  let products = myBagArray[indexPath.row]
         
         
         switch collectionView {
@@ -118,12 +108,6 @@ extension ShoppingBagVC: Typealias.collectionView_DataSourece_Delegate{
                 if let lisetCell = collectionView.dequeueReusableCell(withReuseIdentifier: K.idListBagCollectionCell, for: indexPath) as? ListBagCollectionViewCell {
                   
                     
-                    lisetCell.titleLBL.text = products.title
-                    lisetCell.priceLBL.text = "$ \(products.price)"
-                    lisetCell.descriptionLBL.text = "\(products.description)"
-                    lisetCell.bagImage.image = UIImage(named: products.image)
-                 
-                    
                    
                     return lisetCell
                 }
@@ -131,11 +115,6 @@ extension ShoppingBagVC: Typealias.collectionView_DataSourece_Delegate{
                 // return GridBagCollection
                 convertCollectionGridBtnOutlet.setImage(UIImage(named: "grid"), for: .normal)
                 if let gridCell = collectionView.dequeueReusableCell(withReuseIdentifier: K.idGridBagCollectionCell, for: indexPath) as? GridBagCollectionViewCell{
-                    
-                    gridCell.productImage.image = UIImage(named: products.image)
-                    gridCell.priceLBL.text = "$ \(products.price)"
-                    gridCell.titleLBL.text = products.title
-                    gridCell.descriptionLBL.text = products.description
                     
   
                     return gridCell

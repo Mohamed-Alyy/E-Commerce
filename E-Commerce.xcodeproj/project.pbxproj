@@ -46,8 +46,6 @@
 		D39A793D28D633BE00669542 /* ProfileViC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D39A793C28D633BE00669542 /* ProfileViC.swift */; };
 		D3B3F3F528BFC0020027A161 /* ForgotPasswordVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3B3F3F428BFC0020027A161 /* ForgotPasswordVC.swift */; };
 		D3B4B73728BFAAA900E3032E /* LogInVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3B4B73628BFAAA900E3032E /* LogInVC.swift */; };
-		D3B7FBAC28D7863F00A449FD /* ProductsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3B7FBAB28D7863F00A449FD /* ProductsModel.swift */; };
-		D3B8110928E354850084E910 /* CoreDataHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3B8110828E354850084E910 /* CoreDataHelper.swift */; };
 		D3B8110F28E36B890084E910 /* FavoritesModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = D3B8110D28E36B890084E910 /* FavoritesModel.xcdatamodeld */; };
 		D3C0BAEC28BF89C000699AF1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3C0BAEB28BF89C000699AF1 /* AppDelegate.swift */; };
 		D3C0BAEE28BF89C000699AF1 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3C0BAED28BF89C000699AF1 /* SceneDelegate.swift */; };
@@ -110,8 +108,6 @@
 		D39A793C28D633BE00669542 /* ProfileViC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViC.swift; sourceTree = "<group>"; };
 		D3B3F3F428BFC0020027A161 /* ForgotPasswordVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForgotPasswordVC.swift; sourceTree = "<group>"; };
 		D3B4B73628BFAAA900E3032E /* LogInVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogInVC.swift; sourceTree = "<group>"; };
-		D3B7FBAB28D7863F00A449FD /* ProductsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductsModel.swift; sourceTree = "<group>"; };
-		D3B8110828E354850084E910 /* CoreDataHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataHelper.swift; sourceTree = "<group>"; };
 		D3B8110E28E36B890084E910 /* CartModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = CartModel.xcdatamodel; sourceTree = "<group>"; };
 		D3C0BAE828BF89C000699AF1 /* E-Commerce.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "E-Commerce.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D3C0BAEB28BF89C000699AF1 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -381,7 +377,6 @@
 		D3B7FBAA28D7862100A449FD /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				D3B7FBAB28D7863F00A449FD /* ProductsModel.swift */,
 				D3285F3128EBDFD100C2431A /* Products.swift */,
 				D3E6DC6C28EC8C3C00463C08 /* Login.swift */,
 				D383FC5228F130D3001A2498 /* BaseResponse.swift */,
@@ -472,7 +467,6 @@
 				D3C0BB0B28BF94A100699AF1 /* Helper.swift */,
 				D365378928CDF542006436DA /* Constants.swift */,
 				D3CDC2A128CFAB5D00F395C4 /* Typealias.swift */,
-				D3B8110828E354850084E910 /* CoreDataHelper.swift */,
 			);
 			path = Helper;
 			sourceTree = "<group>";
@@ -637,7 +631,6 @@
 				D386114B28D118BB00AEC97D /* MessegesVC.swift in Sources */,
 				D3E34CE528E69673006FAA93 /* ListBagCollectionViewCell.swift in Sources */,
 				D3CDC29F28CFA7CB00F395C4 /* ChatTableViewCell.swift in Sources */,
-				D3B8110928E354850084E910 /* CoreDataHelper.swift in Sources */,
 				D3C0BAEC28BF89C000699AF1 /* AppDelegate.swift in Sources */,
 				D37DE24428D7084F00021CE4 /* SortingByVC.swift in Sources */,
 				D3E34CF128E6B7DD006FAA93 /* GridBagCollectionViewCell.swift in Sources */,
@@ -659,7 +652,6 @@
 				D35662EF28DC111E006CE822 /* ShoppingBagVC.swift in Sources */,
 				D3B3F3F528BFC0020027A161 /* ForgotPasswordVC.swift in Sources */,
 				D3493CB828F2979F00E21486 /* Categories.swift in Sources */,
-				D3B7FBAC28D7863F00A449FD /* ProductsModel.swift in Sources */,
 				D3C0BAEE28BF89C000699AF1 /* SceneDelegate.swift in Sources */,
 				D365378A28CDF542006436DA /* Constants.swift in Sources */,
 				D3B4B73728BFAAA900E3032E /* LogInVC.swift in Sources */,

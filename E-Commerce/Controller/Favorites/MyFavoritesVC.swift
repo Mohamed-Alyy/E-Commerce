@@ -25,10 +25,7 @@ class MyFavoritesVC: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         tabBarController?.title = "My Favorites"
         tabBarController?.tabBar.selectedItem?.title = ""
-        
-        // Get array form core data
-        myFavoritesArray =  CoreDataHelper.fetchDataFromCoreData()
-        print("myFavoritesArray.count: ",myFavoritesArray.count)
+
         myFavoriteCollection.reloadData()
     }
     
@@ -43,7 +40,7 @@ class MyFavoritesVC: UIViewController {
     
     var subCategoriescolleectionArray = ["T-Shirt" , "Crop Tops" , "Sleeveless" , "Blouses"]
     
-    var myFavoritesArray : [ProductsModel] = []
+    //var myFavoritesArray : [ProductsModel] = []
     
     var islist = true
 
@@ -120,7 +117,7 @@ class MyFavoritesVC: UIViewController {
                 return subCategoriescolleectionArray.count
                 
             case self.myFavoriteCollection :
-                return  myFavoritesArray.count
+                return  0
             default:
                 return 0
             }
@@ -133,65 +130,39 @@ class MyFavoritesVC: UIViewController {
             case myFavoriteCollection:
                 let listFavCell = collectionView.dequeueReusableCell(withReuseIdentifier: K.idListProductionCollectionCell, for: indexPath) as! ListProductsCollectionViewCell
                 if islist{
-                    listFavCell.titleLBL.text = myFavoritesArray[indexPath.row].title
-                    listFavCell.priceLBL.text = "$ \(myFavoritesArray[indexPath.row].price)"
-                    listFavCell.productImage.image = UIImage(named: myFavoritesArray[indexPath.row].image)
-                    listFavCell.descriptionLBL.text = myFavoritesArray[indexPath.row].description
                     
                     listFavCell.cellRow = indexPath.row
                     listFavCell.delegate=self
                     
                     // set favorite photo
-                    if myFavoritesArray[indexPath.row].isFavorite{
-                        listFavCell.favoriteBtn.setImage(K.shoppingBagRedImage, for: .normal)
-                    }else{
-                        listFavCell.favoriteBtn.setImage(K.shoppingBagImage, for: .normal)
-                    }
+
                     
                     return listFavCell
                     
                 }else{
                     
                     let gridFavCell = collectionView.dequeueReusableCell(withReuseIdentifier: K.idGridCollectionCell, for: indexPath) as! GridCollectionViewCell
-                    gridFavCell.produtsTitlLBL.text = myFavoritesArray[indexPath.row].title
-                    gridFavCell.priceLBL.text = "$ \(myFavoritesArray[indexPath.row].price)"
-                    gridFavCell.descriptionLBL.text = myFavoritesArray[indexPath.row].description
-                    gridFavCell.productImageView.image = UIImage(named: myFavoritesArray[indexPath.row].image)
-                    
+
                     gridFavCell.cellRow = indexPath.row
                     
                     // if user tap on x button
                     gridFavCell.xButtonTappedClousre = { [weak self ]row in
-                        self?.myFavoritesArray.remove(at: row)
+                       
                         self!.myFavoriteCollection.reloadData()
-                        
-                        // delete object form core data
-                        CoreDataHelper.deleteObjectFromCoreData(index: row)
+                       
                     }
                     
                     // if user tap on favorite button
                     gridFavCell.favoriteBtnTappedClousre = { [unowned self] row in
-                        let isFavorite =  self.myFavoritesArray[row].isFavorite
-                        self.myFavoritesArray[row].isFavorite = !isFavorite
-                        
-                        // update current object in core data
-                        let currentFavoriteStatus = myFavoritesArray[row].isFavorite
-                
-                        CoreDataHelper.updateObjectInCoreData(isFavorite: currentFavoriteStatus, index: row)
-                        print("currentFavorite status in Grid Cell in \(row) is: ", currentFavoriteStatus)
-                        print("current object updated")
+
+                      
                         self.myFavoriteCollection.reloadData()
                         
                         
                     }
                     
                     // set favorite photo
-                    if myFavoritesArray[indexPath.row].isFavorite{
-                        gridFavCell.favoriteBtn.setImage(K.shoppingBagRedImage, for: .normal)
-                    }else{
-                        gridFavCell.favoriteBtn.setImage(K.shoppingBagImage, for: .normal)
-                    }
-                    
+
                     return gridFavCell
                 }
                 
@@ -260,28 +231,15 @@ extension MyFavoritesVC: FavoriteDelegateProtocol{
     // remove current favorite form myFavoriteArray if xButton Tapped
     func didXbuttonTapped(favRow: Int) {
         //myFavoritesArray.remove(at: favRow)
-        CoreDataHelper.deleteObjectFromCoreData(index: favRow)
-        myFavoritesArray = CoreDataHelper.fetchDataFromCoreData()
-        print("myFavoritesArray.count after delete object: ",myFavoritesArray.count)
-        myFavoriteCollection.reloadData()
+        
+       
     }
     
     
     
     func didFavoriteTapped(row: Int) {
         
-        //change isFavorite value in array
-        myFavoritesArray[row].isFavorite.toggle()
-        
-        let currentFavoriteStatus = myFavoritesArray[row].isFavorite
-        
-        // update favorite status in core data ---> [Still Not working 28-9-2022]
-        CoreDataHelper.updateObjectInCoreData(isFavorite: currentFavoriteStatus, index: row)
-
-        print("currentFavorite status in List Cell in \(row) is: ", currentFavoriteStatus)
-        print("current object updated")
-        myFavoriteCollection.reloadData()
-        
+    
     }
 }
 
