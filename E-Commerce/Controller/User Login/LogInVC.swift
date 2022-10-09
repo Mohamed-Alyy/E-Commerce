@@ -6,13 +6,14 @@
 //
 
 import UIKit
-import Alamofire
+import SwiftyJSON
+import Alertift
 
 class LogInVC: UIViewController {
-
+    
     // MARK: - OUTLETS
     
-    @IBOutlet weak var userNameTF: UITextField!
+    @IBOutlet weak var emailTF: UITextField!
     @IBOutlet weak var passwordTF: UITextField!
     @IBOutlet weak var logInBtnOutlet: UIButton!
     @IBOutlet weak var forgotPasswordLBL: UILabel!
@@ -30,7 +31,7 @@ class LogInVC: UIViewController {
     }
     
     override func viewWillLayoutSubviews() {
-        Helper.customViews(views: [userNameTF,passwordTF,logInBtnOutlet], cornerRadius: 0.2)
+        Helper.customViews(views: [emailTF,passwordTF,logInBtnOutlet], cornerRadius: 0.2)
         addGasturTap()
         navigationController?.navigationBar.topItem?.backButtonTitle = ""
         
@@ -40,11 +41,11 @@ class LogInVC: UIViewController {
         forgotPasswordLBL.isUserInteractionEnabled = true
         let tap = UITapGestureRecognizer(target: self, action: #selector(forgotPasswordLBLTapped))
         forgotPasswordLBL.addGestureRecognizer(tap)
-       
+        
     }
-
+    
     @objc func forgotPasswordLBLTapped () {
-   
+        
         if let forgotPassVC = storyboard?.instantiateViewController(withIdentifier: K.forgotPassVCid) as? ForgotPasswordVC {
             
             // pop current view controller from navigation stack before we push a new view controller
@@ -60,30 +61,49 @@ class LogInVC: UIViewController {
             
         }
     }
-
-
+    
+    
     
     func login(){
-        guard  !userNameTF.text!.isEmpty && !passwordTF.text!.isEmpty else {return}
+        guard  !emailTF.text!.isEmpty && !passwordTF.text!.isEmpty else {return}
         
-        let parameters: [String: Any] = ["username": userNameTF.text! , "password" : passwordTF.text!]
-        
-        AF.request(K.urlUserLogin, method: .post, parameters: parameters, encoding: JSONEncoding.default).responseDecodable(of: Login.self) { response in
-    
-            switch response.result {
-            case .success(let data):
-                let VC = UIStoryboard(name: K.productiosStoryboardId, bundle: nil).instantiateViewController(withIdentifier: K.collectionTabBarid) as! CollectionTabBC
-               // UserDefaults.setValue(data.token, forKey: "usertoken")
-                //guard  data.token != nil else {return}
-                UserDefaults.standard.set(data.token, forKey: "userToken")
-                print(data.token)
-                self.navigationController?.pushViewController(VC, animated: true)
+        let parameters: [String: Any] = ["email": emailTF.text! , "password" : passwordTF.text!]
+        ApiCall.fetchData(url: K.urlLogin, method: .post, parameter: parameters, headers: nil) { (data: BaseResponse<Login>?, error) in
+            if let error = error {
+                print(error.localizedDescription)
+                Alertift.alert(title: "خطأ", message: data?.message)
+                    .action(.default("تم"))
+                    .show(on: self)
+               
+            }else{
                 
-            case.failure(let error):
-                print(error)
-            }
-     
-        
+                if data?.status == false {
+                    Alertift.alert(title: "خطأ", message: data?.message)
+                        .action(.default("تم"))
+                        .show(on: self)
+                }else{
+                    let token = data?.data?.token
+                    UserDefaults.standard.set(token, forKey: "token")
+                    print(token)
+                    let tabBar = UIStoryboard(name: K.productiosStoryboardId, bundle: nil).instantiateViewController(withIdentifier: K.collectionTabBarid)
+                   
+                    tabBar.navigationItem.hidesBackButton = true
+                    Alertift.alert(title: "تسجيل الدخول", message: data?.message)
+//                        .action(.default("تم")){
+//                            self.navigationController?.pushViewController(tabBar, animated: true)
+//                        }
+                        .action(.default("تم"), handler: {
+                            self.navigationController?.pushViewController(tabBar, animated: true)
+                        })
+                        .show(on: self) // show on specified view controller
+                }
+                }
+              
         }
+        
     }
+    
+  
+    
+    // VC End
 }

@@ -31,7 +31,9 @@ class GridCollectionViewCell: UICollectionViewCell  {
     
     var favoriteBtnTappedClousre: ((_ row:Int)->Void)?
     var xButtonTappedClousre: ((_ row:Int)-> Void)?
-    
+    var testClosure = {(_ data: Int)-> Void in
+        
+    }
     
     @IBAction func favoriteBtnPressed(_ sender: UIButton) {
         guard cellRow != nil else {return}

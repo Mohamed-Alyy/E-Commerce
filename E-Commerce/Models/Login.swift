@@ -7,7 +7,10 @@
 
 import UIKit
 
-struct Login : Codable{
-    var token: String
-    
+struct Login: Codable {
+    let id: Int?
+    let name, email, phone: String?
+    let image: String?
+    let points, credit: Int?
+    let token: String?
 }

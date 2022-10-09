@@ -12,11 +12,26 @@ class K {
     
     // MARK: - Api urls
     
-    static let  urlAddNewUser = "https://fakestoreapi.com/users"
-    static let  urlUserLogin  = "https://fakestoreapi.com/auth/login"
-    static let  urlGetAllProducts = "https://fakestoreapi.com/products"
-    static let  urlGetAllCarts = "https://fakestoreapi.com/carts"
+    static let urlBase = "https://student.valuxapps.com/api/"
+    static let urlLogin =  urlBase+"login"
+    static let urlRegister  = urlBase+"register"
+    static let urlLogout = urlBase+"logout"
+    static let urlProfile = urlBase+"profile"
+    static let urlproducts = urlBase+"products"
+    static let urlCategories = urlBase+"categories"
+    
 
+
+    enum URLS: String {
+        case register
+        case login
+        case logout
+        case profile
+        case products
+        case favorites
+        case carts
+        case categories
+    }
     
     
     // MARK: - Constant property
@@ -72,7 +87,7 @@ class K {
     static let signiInVCid = String(describing: SignInVC.self)
     static let loginVCid = String(describing: LogInVC.self)
     static let forgotPassVCid = String(describing: ForgotPasswordVC.self)
-    static let homeCollectionVCid = String(describing: HomeCollectionVC.self)
+    static let homeCollectionVCid = String(describing: CategoriesVC.self)
     static let newCollectionVCid = String(describing: NewCollectionVC.self)
     static let collectionTabBarid = String(describing: CollectionTabBC.self)
     static let sortByVCid = String(describing: SortByVC.self)

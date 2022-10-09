@@ -17,7 +17,6 @@ struct ApiCall {
             switch response.result{
                 
             case .success(let data):
-                
                 completion(data,nil)
             case.failure(let error):
                 completion(nil,error)

@@ -16,15 +16,12 @@ class ProductsDetailsVC: UIViewController {
     @IBOutlet weak var suggestedProductsCollectionView: UICollectionView!
 
     @IBOutlet weak var addToCartBtnOutlet: UIButton!
-    
     @IBOutlet weak var favoriteBtnOutlet: UIButton!
     
     @IBOutlet weak var sizeView: UIView!
     @IBOutlet weak var colorView: UIView!
-    
-    
+
     @IBOutlet weak var titleLBL: UILabel!
-    
     @IBOutlet weak var descriptionLBL: UILabel!
     @IBOutlet weak var priceLBL: UILabel!
     
@@ -33,7 +30,7 @@ class ProductsDetailsVC: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         
             // set tabBarControlle title
-        tabBarController?.title = "Product Details"
+        //tabBarController?.title = "Product Details"
             // hide the bottom tab bar that contain tabBar bottom items
         tabBarController?.tabBar.isHidden = true
         
@@ -96,7 +93,6 @@ class ProductsDetailsVC: UIViewController {
       
       //  productDetails?.isFavorite.toggle()
         setFavoiteBtnImage()
-        sendFavoriteNotification()
         
     }
     
@@ -115,17 +111,17 @@ class ProductsDetailsVC: UIViewController {
 //        }
     }
     
-    // set isFavorite in newCollection view controller
-    func sendFavoriteNotification(){
-        
-       // guard let isFavorite = productDetails?.isFavorite else {return}
-        guard let productId = productDetails?.id else {return}
-     
-        
-       // let userInfo : [String: Any] = [K.productIsFavoriteNotificationfName : isFavorite, K.productIdNotificationfName: productId]
-        
-       // NotificationCenter.default.post(name: NSNotification.Name(K.favoriteNotificationName), object: nil, userInfo: userInfo)
-    }
+//    // set isFavorite in newCollection view controller
+//    func sendFavoriteNotification(){
+//
+//       // guard let isFavorite = productDetails?.isFavorite else {return}
+//    //    guard let productId = productDetails?.id else {return}
+//
+//
+//       // let userInfo : [String: Any] = [K.productIsFavoriteNotificationfName : isFavorite, K.productIdNotificationfName: productId]
+//
+//       // NotificationCenter.default.post(name: NSNotification.Name(K.favoriteNotificationName), object: nil, userInfo: userInfo)
+//    }
     
     // register collection view cells
     func registerCell(){
@@ -150,7 +146,7 @@ extension ProductsDetailsVC : Typealias.collectionView_DataSourece_Delegate{
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         switch collectionView{
         case productDetailsImagesCollectionView:
-            return [productDetails].count
+            return (productDetails?.images.count)!
         case suggestedProductsCollectionView:
             return suggestedProductsImagesArray.count
         default:
@@ -160,19 +156,22 @@ extension ProductsDetailsVC : Typealias.collectionView_DataSourece_Delegate{
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let currentPrdouct = productDetails
         switch collectionView {
         case productDetailsImagesCollectionView :
             if let productsCell = collectionView.dequeueReusableCell(withReuseIdentifier: K.idProductDetailsCollectionCell, for: indexPath) as? ProductsDetailsCollectionViewCell {
-                
-                if let imageUrl = URL(string: productDetails!.image) {
-                    productsCell.produtImageView.kf.setImage(with: imageUrl)
+                for image in currentPrdouct!.images{
+                    productsCell.produtImageView.loadImage(url: image)
                 }
-                titleLBL.text = productDetails?.title
-                descriptionLBL.text = productDetails?.productDescription
-                priceLBL.text = "$\(productDetails!.price)"
+                //productsCell.produtImageView.loadImage(url: currentPrdouct!.image)
+                titleLBL.text = currentPrdouct?.name
+                descriptionLBL.text = currentPrdouct?.datumDescription
+                priceLBL.text = "$\(currentPrdouct!.price)"
                 
                 return productsCell
             }
+                
+               
             
         case suggestedProductsCollectionView:
             if let suggestedCell = collectionView.dequeueReusableCell(withReuseIdentifier: K.idGridCollectionCell, for: indexPath) as? GridCollectionViewCell {

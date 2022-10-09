@@ -8,31 +8,30 @@
 import UIKit
 import Alamofire
 
-class HomeCollectionVC: UIViewController {
+class CategoriesVC: UIViewController {
     
     
     // MARK: - OUTLETS
     
-    @IBOutlet weak var homeCollectionView: UICollectionView!
+    @IBOutlet weak var categoryCollectionView: UICollectionView!
     
-    var newCollectionImageArray: [UIImage] = [UIImage(named: "candles")! ,UIImage(named: "flower")! ,UIImage(named: "massage")!]
+    // MARK: - properties
+    var categoryArray: [Category] = []
     
-    var newCollectionTitle: [String] = ["New Collection","Summer Sales","Mean's Hoodies"]
-
-    
-    
+ 
     // MARK: - App Display FUnctions
     
     override func viewDidLoad() {
         super.viewDidLoad()
         registerCell()
+        getCategoriesFromApi()
 
     }
  
     
     override func viewWillAppear(_ animated: Bool) {
         //self.tabBarController?.tabBar.isHidden = true
-        tabBarController?.title = "Collections Home"
+        tabBarController?.title = "Categoeis"
     }
     
     
@@ -41,9 +40,26 @@ class HomeCollectionVC: UIViewController {
     
     
     func registerCell (){
-        homeCollectionView.register(UINib(nibName:K.idHomeCollectionIdCell, bundle: nil), forCellWithReuseIdentifier: K.idHomeCollectionIdCell)
-        homeCollectionView.delegate = self
-        homeCollectionView.dataSource = self
+        categoryCollectionView.register(UINib(nibName:K.idHomeCollectionIdCell, bundle: nil), forCellWithReuseIdentifier: K.idHomeCollectionIdCell)
+        categoryCollectionView.delegate = self
+        categoryCollectionView.dataSource = self
+    }
+    
+    func getCategoriesFromApi(){
+        showLoader()
+        ApiCall.fetchData(url: K.urlCategories, method: .get, parameter: nil, headers: nil) {[weak self]( categoris: Categories?, error) in
+            guard let self = self else {return}
+            defer{
+                self.hideLoadr()
+            }
+            if let error{
+                print(error)
+            }else{
+                self.categoryArray = (categoris?.data.categories)!
+                self.categoryCollectionView.reloadData()
+                
+            }
+        }
     }
     
  
@@ -53,17 +69,19 @@ class HomeCollectionVC: UIViewController {
 
     // MARK: - Extensions
 
-extension HomeCollectionVC:Typealias.collectionView_DataSourece_Delegate{
+extension CategoriesVC:Typealias.collectionView_DataSourece_Delegate{
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        newCollectionImageArray.count
+        categoryArray.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: K.idHomeCollectionIdCell, for: indexPath) as! HomeCollectionViewCell
-        cell.homeCollectionImageView.image = newCollectionImageArray[indexPath.row]
-        cell.homeCollectionLBL.text = newCollectionTitle[indexPath.row]
-        cell.homeCollectionLBL.backgroundColor = .black.withAlphaComponent(0.45)
+        cell.homeCollectionImageView.loadImage(url: categoryArray[indexPath.row].image)
+       
+        cell.homeCollectionLBL.text = categoryArray[indexPath.row].name
+        cell.homeCollectionLBL.textColor = .yellow
+        cell.homeCollectionLBL.backgroundColor = .black.withAlphaComponent(0.7)
         
         return cell
     }
@@ -72,7 +90,7 @@ extension HomeCollectionVC:Typealias.collectionView_DataSourece_Delegate{
         if indexPath.row == 0 {
             let newCollectionVC = storyboard?.instantiateViewController(withIdentifier: K.newCollectionVCid) as! NewCollectionVC
             
-            newCollectionVC.title = newCollectionTitle[indexPath.row]
+            newCollectionVC.title = categoryArray[indexPath.row].name
             navigationController?.pushViewController(newCollectionVC, animated: true)
         }
     }

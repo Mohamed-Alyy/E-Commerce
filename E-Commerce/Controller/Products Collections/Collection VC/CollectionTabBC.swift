@@ -12,6 +12,7 @@ class CollectionTabBC: UITabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
         //navigationController?.navigationBar.prefersLargeTitles = true
+        navigationItem.backButtonTitle = ""
         }
         
     }

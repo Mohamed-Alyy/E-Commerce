@@ -10,12 +10,21 @@
       }
     },
     {
+      "identity" : "alertift",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/sgr-ksmt/Alertift",
+      "state" : {
+        "revision" : "7b819f97cc6f56247a16f0c92413aaf332810d4a",
+        "version" : "4.2.0"
+      }
+    },
+    {
       "identity" : "kingfisher",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/onevcat/Kingfisher.git",
       "state" : {
         "branch" : "master",
-        "revision" : "26a5aee988318f1a57adc9b9c3e676ce318630a8"
+        "revision" : "6c6d77b43cdf032417be925eaa4a583907d9bb32"
       }
     },
     {

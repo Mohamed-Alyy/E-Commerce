@@ -132,13 +132,13 @@
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="AyC-J0-AX9" userLabel="LogIn Stack View">
                                 <rect key="frame" x="21.333333333333343" y="220.33333333333337" width="385.33333333333326" height="145.66666666666663"/>
                                 <subviews>
-                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="mor_2314" borderStyle="roundedRect" placeholder="User Name" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="XxE-c0-8Ip">
+                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="moh@mail.com" borderStyle="roundedRect" placeholder="User Name" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="XxE-c0-8Ip">
                                         <rect key="frame" x="0.0" y="0.0" width="385.33333333333331" height="65"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits" keyboardType="alphabet"/>
                                     </textField>
-                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="83r5^_" borderStyle="roundedRect" placeholder="Password" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="gIq-vF-jOW">
+                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Password" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="gIq-vF-jOW">
                                         <rect key="frame" x="0.0" y="80.999999999999972" width="385.33333333333331" height="64.666666666666657"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -213,10 +213,10 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="emailTF" destination="XxE-c0-8Ip" id="s3N-Bd-kDt"/>
                         <outlet property="forgotPasswordLBL" destination="evn-Om-zwR" id="szh-Sa-8UE"/>
                         <outlet property="logInBtnOutlet" destination="gMs-SX-DpT" id="35d-RS-xAG"/>
                         <outlet property="passwordTF" destination="gIq-vF-jOW" id="bHs-Jh-7xF"/>
-                        <outlet property="userNameTF" destination="XxE-c0-8Ip" id="s3N-Bd-kDt"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="rRR-DI-jCo" sceneMemberID="firstResponder"/>
