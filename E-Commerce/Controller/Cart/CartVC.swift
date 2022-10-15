@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ShoppingBagVC: UIViewController {
+class CartVC: UIViewController {
     
     // MARK: - Outlets
     
@@ -15,7 +15,7 @@ class ShoppingBagVC: UIViewController {
     
     @IBOutlet weak var convertCollectionGridBtnOutlet: UIButton!
     
-    @IBOutlet weak var myBagCollection : UICollectionView!
+    @IBOutlet weak var myCartCollection : UICollectionView!
     
     @IBOutlet weak var promoCodeTF: UITextField!
     
@@ -26,13 +26,16 @@ class ShoppingBagVC: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         tabBarController?.title = "My Bag"
         tabBarController?.tabBar.selectedItem?.title = ""
+        getCartFormApi()
     }
 
     
+   
     override func viewDidLoad() {
         super.viewDidLoad()
         Helper.customViews(views: [promoCodeTF , checkOutBtnOutlet], cornerRadius: nil)
         registerCell()
+        
     }
     
     
@@ -41,32 +44,66 @@ class ShoppingBagVC: UIViewController {
     
     var subCategoriescolleectionArray = ["T-Shirt" , "Crop Tops" , "Sleeveless" , "Blouses"]
     
+    var myCartArray: CartData?
     var islist = true
+   // var totalPrice = 0.0
     
     // MARK: - Actions
     
     @IBAction func convertCollectionGridBtnPressed(_ sender: UIButton) {
         islist = !islist
-        myBagCollection.reloadData()
+        myCartCollection.reloadData()
     }
     
-    
+    // MARK: - Actions
     @IBAction func checkOutBtnPressed(_ sender: UIButton) {
         
     }
 
     // MARK: - Functions
+    func removeFromCart(row: Int){
+        let currentItemId = myCartArray?.cartItems[row].product.id
+        let parameter = ["product_id": currentItemId] as? [String: Any]
+        ApiCall.fetchData(url: K.urlCart, method: .post, parameter: parameter, headers: K.authorizHeaders, encoding: nil) { (data: AddOrDeletFromCart?, error) in
+            if error != nil {
+                print(error as Any)
+            }else{
+                print(data?.message as Any)
+            }
+        }
+    }
+    
+    
+    func getCartFormApi(){
+        showLoader()
+        ApiCall.fetchData(url: K.urlCart, method: .get, parameter: nil, headers: K.authorizHeaders, encoding: nil) {[weak self] (cart: MyCartModel?, error )in
+            guard let self = self else {return}
+            defer{
+                self.hideLoadr()
+            }
+            if error != nil {
+                print(error as Any)
+            }else{
+                if  cart?.data != nil {
+                    self.myCartArray = (cart?.data)!
+                    self.myCartCollection.reloadData()
+
+                }
+               
+            }
+        }
+    }
     
     
     func registerCell(){
         subCategoriesCollection.register(UINib(nibName: K.idSubCategoriesColltionIdCell, bundle: nil), forCellWithReuseIdentifier: K.idSubCategoriesColltionIdCell)
-        myBagCollection.register(UINib(nibName: K.idListBagCollectionCell, bundle: nil), forCellWithReuseIdentifier: K.idListBagCollectionCell)
-        myBagCollection.register(UINib(nibName: K.idGridBagCollectionCell, bundle: nil), forCellWithReuseIdentifier: K.idGridBagCollectionCell)
+        myCartCollection.register(UINib(nibName: K.idListBagCollectionCell, bundle: nil), forCellWithReuseIdentifier: K.idListBagCollectionCell)
+        myCartCollection.register(UINib(nibName: K.idGridBagCollectionCell, bundle: nil), forCellWithReuseIdentifier: K.idGridBagCollectionCell)
         
         subCategoriesCollection.delegate=self
         subCategoriesCollection.dataSource=self
-        myBagCollection.delegate=self
-        myBagCollection.dataSource=self
+        myCartCollection.delegate=self
+        myCartCollection.dataSource=self
         
     }
    
@@ -74,23 +111,26 @@ class ShoppingBagVC: UIViewController {
 }
 
 
-extension ShoppingBagVC: Typealias.collectionView_DataSourece_Delegate{
+extension CartVC: Typealias.collectionView_DataSourece_Delegate{
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         switch collectionView{
         case self.subCategoriesCollection :
             return subCategoriescolleectionArray.count
             
-        case self.myBagCollection :
-            return 0
+        case self.myCartCollection :
+            if let cartCount = myCartArray?.cartItems.count {
+                return cartCount
+            }
+            //return (myCartArray?.cartItems.count)
         default:
             return 0
         }
+        return 0
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-      //  let products = myBagArray[indexPath.row]
-        
-        
+      
+        let currentIndex = myCartArray?.cartItems[indexPath.row].product
         switch collectionView {
             
         case self.subCategoriesCollection :
@@ -103,27 +143,44 @@ extension ShoppingBagVC: Typealias.collectionView_DataSourece_Delegate{
             
         default:
             if islist {
+                
                 // return ListBagCollection
                 convertCollectionGridBtnOutlet.setImage(UIImage(named: "list"), for: .normal)
                 if let lisetCell = collectionView.dequeueReusableCell(withReuseIdentifier: K.idListBagCollectionCell, for: indexPath) as? ListBagCollectionViewCell {
                   
-                    
-                   
-                    return lisetCell
+                    if let currentIndex {
+                        lisetCell.titleLBL.text = currentIndex.name
+                        lisetCell.priceLBL.text = "$\(currentIndex.price)"
+                        lisetCell.descriptionLBL.text = currentIndex.description
+                        lisetCell.bagImage.loadImage(url: currentIndex.image)
+                        if let total = myCartArray?.total{totalPriceLBL.text = "$\(total.rounded())"}
+                        
+                        
+                        lisetCell.delegate = self
+                        lisetCell.cartRow = indexPath.row
+                        return lisetCell
+                    }
                 }
             }else{
                 // return GridBagCollection
                 convertCollectionGridBtnOutlet.setImage(UIImage(named: "grid"), for: .normal)
                 if let gridCell = collectionView.dequeueReusableCell(withReuseIdentifier: K.idGridBagCollectionCell, for: indexPath) as? GridBagCollectionViewCell{
                     
-  
-                    return gridCell
+                    if let currentIndex {
+                        gridCell.titleLBL.text = currentIndex.name
+                        gridCell.priceLBL.text = "$\(currentIndex.price)"
+                        gridCell.descriptionLBL.text = currentIndex.description
+                        gridCell.productImage.loadImage(url: currentIndex.image)
+                        if let total = myCartArray?.total{totalPriceLBL.text = "$\(total.rounded())"}
+                        
+                        return gridCell
+                    }
                 }
             }
             
             
         }
-        myBagCollection.reloadData()
+        myCartCollection.reloadData()
         return UICollectionViewCell()
     }
     
@@ -137,7 +194,7 @@ extension ShoppingBagVC: Typealias.collectionView_DataSourece_Delegate{
         case self.subCategoriesCollection :
             return CGSize(width: width / 4, height: height * 0.8)
             
-        case self.myBagCollection :
+        case self.myCartCollection :
             
             if islist == true {
                // convertCollectionGridOutlet.setImage(UIImage(named: "list"), for: .normal)
@@ -174,4 +231,17 @@ extension ShoppingBagVC: Typealias.collectionView_DataSourece_Delegate{
            return 0
         }
     }
+}
+
+extension CartVC: DeleteFromCartProtocol {
+    func didXbuttonTapped(cartRow: Int) {
+        removeFromCart(row: cartRow)
+        myCartArray?.cartItems.remove(at: cartRow)
+        myCartCollection.reloadData()
+        
+    }
+    
+   
+    
+    
 }

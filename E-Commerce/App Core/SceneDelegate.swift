@@ -31,6 +31,17 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             self.window?.rootViewController = nav
             window?.makeKeyAndVisible()
         }
+        //let window = UIWindow (frame: UIScreen.main.bounds)
+
+//        let storBoard = UIStoryboard(name: K.mainStoryboardId, bundle: nil)
+//        let signVC = storBoard.instantiateViewController(withIdentifier: K.loginVCid)
+//        let nav = UINavigationController(rootViewController: signVC)
+//        var navArr = nav.viewControllers
+////        navArr.removeAll()
+////        navArr.append(signVC)
+//        self.window?.rootViewController = nav
+//        self.window?.makeKeyAndVisible()
+        
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {

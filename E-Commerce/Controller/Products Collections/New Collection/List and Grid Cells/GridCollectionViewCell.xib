@@ -64,7 +64,7 @@
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GRr-pe-pBZ">
                                 <rect key="frame" x="379.5" y="341" width="65.5" height="81"/>
                                 <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain" image="favorite.fill" title=" "/>
+                                <buttonConfiguration key="configuration" style="plain" image="favorite" title=" "/>
                                 <connections>
                                     <action selector="favoriteBtnPressed:" destination="gTV-IL-0wX" eventType="touchUpInside" id="neK-dB-N9J"/>
                                 </connections>
@@ -148,7 +148,7 @@
         </collectionViewCell>
     </objects>
     <resources>
-        <image name="favorite.fill" width="40" height="40"/>
+        <image name="favorite" width="40" height="40"/>
         <image name="stars" width="109.5" height="23.5"/>
         <image name="xmark" catalog="system" width="128" height="113"/>
         <systemColor name="systemBackgroundColor">

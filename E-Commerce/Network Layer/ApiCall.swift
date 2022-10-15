@@ -10,10 +10,10 @@ import Alamofire
 
 struct ApiCall {
     
-    static func fetchData <Model: Codable> (url: String , method: HTTPMethod , parameter: Parameters?, headers: HTTPHeaders? , completion: @escaping (_ data:Model? , _ error: Error?)->Void){
+    static func fetchData <Model: Codable> (url: String , method: HTTPMethod , parameter: Parameters?, headers: HTTPHeaders?, encoding: JSONEncoding? , completion: @escaping (_ data:Model? , _ error: Error?)->Void){
         
         AF.request(url, method: method, parameters: parameter, encoding: JSONEncoding.default, headers: headers).responseDecodable(of: Model.self) { response in
-            
+                
             switch response.result{
                 
             case .success(let data):

@@ -28,23 +28,16 @@ class ProductsDetailsVC: UIViewController {
     
     
     override func viewWillAppear(_ animated: Bool) {
-        
-            // set tabBarControlle title
-        //tabBarController?.title = "Product Details"
-            // hide the bottom tab bar that contain tabBar bottom items
         tabBarController?.tabBar.isHidden = true
-        
-        
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         tabBarController?.tabBar.isHidden = false
     }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
         registerCell()
-        setFavoiteBtnImage()
     }
     
     override func viewDidLayoutSubviews() {
@@ -104,25 +97,10 @@ class ProductsDetailsVC: UIViewController {
 
     // set image for favorite button
     func setFavoiteBtnImage(){
-//        if productDetails?.isFavorite == false{
-//            favoriteBtnOutlet.setImage(K.notFavoriteImage, for: .normal)
-//        }else{
-//            favoriteBtnOutlet.setImage(K.isFavoriteImage, for: .normal)
-//        }
+
     }
-    
-//    // set isFavorite in newCollection view controller
-//    func sendFavoriteNotification(){
-//
-//       // guard let isFavorite = productDetails?.isFavorite else {return}
-//    //    guard let productId = productDetails?.id else {return}
-//
-//
-//       // let userInfo : [String: Any] = [K.productIsFavoriteNotificationfName : isFavorite, K.productIdNotificationfName: productId]
-//
-//       // NotificationCenter.default.post(name: NSNotification.Name(K.favoriteNotificationName), object: nil, userInfo: userInfo)
-//    }
-    
+
+
     // register collection view cells
     func registerCell(){
         productDetailsImagesCollectionView.register(UINib(nibName: K.idProductDetailsCollectionCell, bundle: nil), forCellWithReuseIdentifier: K.idProductDetailsCollectionCell)
@@ -146,7 +124,7 @@ extension ProductsDetailsVC : Typealias.collectionView_DataSourece_Delegate{
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         switch collectionView{
         case productDetailsImagesCollectionView:
-            return (productDetails?.images.count)!
+            return (productDetails?.images?.count)!
         case suggestedProductsCollectionView:
             return suggestedProductsImagesArray.count
         default:
@@ -160,12 +138,10 @@ extension ProductsDetailsVC : Typealias.collectionView_DataSourece_Delegate{
         switch collectionView {
         case productDetailsImagesCollectionView :
             if let productsCell = collectionView.dequeueReusableCell(withReuseIdentifier: K.idProductDetailsCollectionCell, for: indexPath) as? ProductsDetailsCollectionViewCell {
-                for image in currentPrdouct!.images{
-                    productsCell.produtImageView.loadImage(url: image)
-                }
-                //productsCell.produtImageView.loadImage(url: currentPrdouct!.image)
+                
+                productsCell.produtImageView.loadImage(url: (currentPrdouct!.images?[indexPath.row])!)
                 titleLBL.text = currentPrdouct?.name
-                descriptionLBL.text = currentPrdouct?.datumDescription
+                descriptionLBL.text = currentPrdouct?.description
                 priceLBL.text = "$\(currentPrdouct!.price)"
                 
                 return productsCell

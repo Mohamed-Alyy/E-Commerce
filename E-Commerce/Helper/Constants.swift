@@ -7,18 +7,31 @@
 
 import Foundation
 import UIKit
+import Alamofire
 
 class K {
+    
+    // MARK: - API Parameters
+    static let token = UserDefaults.standard.value(forKey: "token")
+   
+    
+    // "Duiz17HwzeeXiDDNzJdv2rovgKN8tMaM95sFBh1ARZ6VxX9HpLBrUb4yqGw2Ym8rjwGw16"
+    // MARK: - APi Headers
+    static  let authorizHeaders: HTTPHeaders = ["Authorization": token as! String, "lang": "ar"]
+    
+    
     
     // MARK: - Api urls
     
     static let urlBase = "https://student.valuxapps.com/api/"
     static let urlLogin =  urlBase+"login"
-    static let urlRegister  = urlBase+"register"
     static let urlLogout = urlBase+"logout"
+    static let urlRegister  = urlBase+"register"
     static let urlProfile = urlBase+"profile"
     static let urlproducts = urlBase+"products"
     static let urlCategories = urlBase+"categories"
+    static let urlFavorites = urlBase+"favorites"
+    static let urlCart = urlBase+"carts"
     
 
 
@@ -34,25 +47,25 @@ class K {
     }
     
     
+    
+    
     // MARK: - Constant property
     
     
     // some assets images names
     static let notFavoriteImage = UIImage(named: "favorite")
     static let isFavoriteImage = UIImage(named: "favorite.fill")
-    static let shoppingBagImage = UIImage(named: "circleBagWhite")
-    static let shoppingBagRedImage = UIImage(named: "circleBagRed")
+    
+    static let isCartImage = UIImage(named: "circleBagWhite")
+    static let notCartImage = UIImage(named: "circleBagRed")
+    
     static let listImage = UIImage(named: "list")
     static let gridImage = UIImage(named: "gird")
     
     // Product Details Notification names properties
-    static let favoriteNotificationName = "com.favoriteNotification"
-    static let productIsFavoriteNotificationfName = "productIsFavorite"
-    static let productIdNotificationfName = "productId"
-//    static let rowIdNotificationfName = "rowId"
-    static let senFavoiteToMyFavoriteArrayNotificationName = "myFavoritesArray"
-    static let sendFinalMyFavArrayNotificationName = "finalMyFavoriteArray"
-    
+    static let changeImageNotificationName = "com.imageNotification"
+
+
     
     // MARK: - Storyborads Ids
     
@@ -74,6 +87,8 @@ class K {
     static let idGridBagCollectionCell = String(describing: GridBagCollectionViewCell.self)
     
     
+    
+    
     // MARK: - Table View Cells Ids
     
     static let idMessegesTableViewCell = String(describing: MessegesTableViewCell.self)
@@ -88,7 +103,7 @@ class K {
     static let loginVCid = String(describing: LogInVC.self)
     static let forgotPassVCid = String(describing: ForgotPasswordVC.self)
     static let homeCollectionVCid = String(describing: CategoriesVC.self)
-    static let newCollectionVCid = String(describing: NewCollectionVC.self)
+    static let newCollectionVCid = String(describing: ElectronicCollectionVC.self)
     static let collectionTabBarid = String(describing: CollectionTabBC.self)
     static let sortByVCid = String(describing: SortByVC.self)
     static let messgeVCid = String(describing: ChatListVC.self)
@@ -97,6 +112,6 @@ class K {
     static let productDetailsVCid = String(describing: ProductsDetailsVC.self)
     static let selectSizeVCid = String(describing: SelesctSizeVC.self)
     static let sortingByVCid = String(describing: SortingByVC.self)
-    static let shopingBagVCid = String(describing: ShoppingBagVC.self)
+    static let cartVCid = String(describing: CartVC.self)
     static let favoriteVCid = String(describing: MyFavoritesVC.self)
 }

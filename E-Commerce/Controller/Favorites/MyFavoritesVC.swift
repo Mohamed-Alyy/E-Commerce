@@ -6,12 +6,13 @@
 //
 
 import UIKit
-import CoreData
+import Alertift
+import Alamofire
 
 class MyFavoritesVC: UIViewController {
-
     
-   @IBOutlet weak var convertCollectionGridOutlet: UIButton!
+    
+    @IBOutlet weak var convertCollectionGridOutlet: UIButton!
     
     @IBOutlet weak var priceOrderBtnOutlet: UIButton!
     
@@ -25,24 +26,27 @@ class MyFavoritesVC: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         tabBarController?.title = "My Favorites"
         tabBarController?.tabBar.selectedItem?.title = ""
-
-        myFavoriteCollection.reloadData()
+        getMyFavoritesFromApi()
     }
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         registerCell()
-        //reciveNotification()
+       
     }
-   
+    
+    
     // MARK: - Proerties
     
     var subCategoriescolleectionArray = ["T-Shirt" , "Crop Tops" , "Sleeveless" , "Blouses"]
     
-    //var myFavoritesArray : [ProductsModel] = []
+    var myFavoritesArray: [MyFavorite] = []
     
     var islist = true
+    
+    
 
     
     
@@ -103,12 +107,78 @@ class MyFavoritesVC: UIViewController {
         subCategoriesCollection.dataSource=self
         myFavoriteCollection.delegate=self
         myFavoriteCollection.dataSource=self
-        
-    }
+    } //Function End
+    
    
+    func getMyFavoritesFromApi(){
+        
+        ApiCall.fetchData(url: K.urlFavorites, method: .get, parameter: nil, headers: K.authorizHeaders, encoding: nil) {[weak self] (favorites: MyFavoritesModel?, error) in
+            guard let self = self else {return}
+            defer{
+                self.hideLoadr()
+            }
+            self.showLoader()
+            if error != nil{
+                Alertift.alert(title: "Error", message: "\(favorites?.status)")
+                    .action(.default("تم"))
+                    .show(on:self)
 
-}
+            }else{
+                guard let favArr = favorites?.data?.favorites else {return}
+               
+                self.myFavoritesArray = favArr
+                self.myFavoriteCollection.reloadData()
+            }
 
+        }
+    }//Function End
+    
+    func addOrRemoveFavorite(row: Int){
+        let parameter = ["product_id": myFavoritesArray[row].product?.id] as? [String: Any]
+        
+        ApiCall.fetchData(url: K.urlFavorites, method: .post, parameter: parameter, headers: K.authorizHeaders, encoding: JSONEncoding.default) { (myFavorites: BaseResponse<AddOrDelFavorie>?, error) in
+            if error != nil {
+                Alertift.alert(title: "", message: error?.localizedDescription)
+                    .action(.default("تم"))
+                    .show(on: self)
+            }else{
+                Alertift.alert(title: "", message: myFavorites?.message)
+                    .action(.default("تم"))
+                    .show(on: self)
+              
+            }
+        }
+    } //Function End
+    
+    
+    
+    func addOrRemoveFromCart(row: Int){
+        let currentItemId = myFavoritesArray[row].product?.id
+        let parameter = ["product_id": currentItemId] as? [String: Any]
+        ApiCall.fetchData(url: K.urlCart, method: .post, parameter: parameter, headers: K.authorizHeaders, encoding: JSONEncoding.default) { (data: AddOrDeletFromCart?, error) in
+            if error != nil {
+            //    print(error)
+                Alertift.Alert(title: "", message: error?.localizedDescription)
+                    .action(.default("تم"))
+                    .show(on: self)
+            
+            }else{
+                Alertift.Alert(title: "", message: data?.message)
+                    .action(.default("تم"))
+                    .show(on: self)
+            }
+        }
+    } // Function End
+    
+    
+    
+    
+} // Class End
+
+
+
+
+    // MARK: - Collection View Protocols
 
     extension MyFavoritesVC: Typealias.collectionView_DataSourece_Delegate{
         func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -117,34 +187,51 @@ class MyFavoritesVC: UIViewController {
                 return subCategoriescolleectionArray.count
                 
             case self.myFavoriteCollection :
-                return  0
+                return  myFavoritesArray.count
             default:
                 return 0
             }
-        }
+        } //Function End
         
         func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-            
             switch collectionView{
                 
             case myFavoriteCollection:
                 let listFavCell = collectionView.dequeueReusableCell(withReuseIdentifier: K.idListProductionCollectionCell, for: indexPath) as! ListProductsCollectionViewCell
+                
+                let currentFav = myFavoritesArray[indexPath.row].product
+                
                 if islist{
-                    
-                    listFavCell.cellRow = indexPath.row
-                    listFavCell.delegate=self
-                    
-                    // set favorite photo
-
-                    
-                    return listFavCell
+                    if let currentFav{
+                        listFavCell.titleLBL.text = currentFav.name
+                        listFavCell.descriptionLBL.text = currentFav.description
+                        listFavCell.priceLBL.text = "$\(currentFav.price.rounded())"
+                        listFavCell.productImage.loadImage(url: currentFav.image)
+                        
+                        listFavCell.cellRow = indexPath.row
+                        listFavCell.delegate = self
+                        
+                        // set favorite button image
+                        listFavCell.favoriteBtn.setImage(K.isCartImage, for: .normal)
+                       
+                        return listFavCell
+                        
+                    }
                     
                 }else{
                     
                     let gridFavCell = collectionView.dequeueReusableCell(withReuseIdentifier: K.idGridCollectionCell, for: indexPath) as! GridCollectionViewCell
-
-                    gridFavCell.cellRow = indexPath.row
-                    
+                    if let currentFav{
+                        gridFavCell.produtsTitlLBL.text = currentFav.name
+                        gridFavCell.descriptionLBL.text = currentFav.description
+                        gridFavCell.priceLBL.text = "$\(currentFav.price.rounded())"
+                        gridFavCell.productImageView.loadImage(url: currentFav.image)
+                        
+                        gridFavCell.cellRow = indexPath.row
+                        gridFavCell.favoriteBtn.setImage(K.isCartImage, for: .normal)
+                        
+                        
+                    }
                     // if user tap on x button
                     gridFavCell.xButtonTappedClousre = { [weak self ]row in
                        
@@ -153,16 +240,11 @@ class MyFavoritesVC: UIViewController {
                     }
                     
                     // if user tap on favorite button
-                    gridFavCell.favoriteBtnTappedClousre = { [unowned self] row in
-
-                      
+                    gridFavCell.favoriteBtnTappedClousre = { [weak self] row in
+                        guard let self = self else {return}
                         self.myFavoriteCollection.reloadData()
                         
-                        
                     }
-                    
-                    // set favorite photo
-
                     return gridFavCell
                 }
                 
@@ -173,8 +255,8 @@ class MyFavoritesVC: UIViewController {
                 return categoryCell
             }
         
-
-        }
+            return UICollectionViewCell()
+        } //Function End
         
         
         func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
@@ -200,11 +282,12 @@ class MyFavoritesVC: UIViewController {
                 return CGSize(width: width, height: height)
                 
             }
-        }
+        } //Function End
         
         func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
             UIEdgeInsets.zero
-        }
+        } //Function End
+        
         func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
             switch collectionView {
            
@@ -223,45 +306,53 @@ class MyFavoritesVC: UIViewController {
                return 0
             }
         }
-    }
+    } //Function End
 
+
+    // MARK: - FavoriteDelegateProtocol protocol
 
 extension MyFavoritesVC: FavoriteDelegateProtocol{
     
     // remove current favorite form myFavoriteArray if xButton Tapped
     func didXbuttonTapped(favRow: Int) {
-        //myFavoritesArray.remove(at: favRow)
-        
+        addOrRemoveFavorite(row: favRow)
+        myFavoritesArray.remove(at: favRow)
+        myFavoriteCollection.reloadData()
        
-    }
-    
-    
+    } //Function End
     
     func didFavoriteTapped(row: Int) {
-        
+        addOrRemoveFromCart(row: row)
     
-    }
-}
+    } //Function End
+    
+    
+} // Extension End
 
+
+    // MARK: - UsenigSortingFilterProtocol protocol
 
 extension MyFavoritesVC: UsenigSortingFilterProtocol{
     func didUserTappDoneOrCancelButton(tabBar: UITabBar?) {
         self.tabBarController?.tabBar.isHidden = false
-    }
+        
+    } //Function End
     
     func didUserUseingFilter(name: String) {
         priceOrderBtnOutlet.setTitle(name, for: .normal)
-    }
+        
+    } //Function End
     
+    
+} // Extension End
 
-    
-    
-}
+// MARK: - UsenigColorFilterProtocol protocol
 
 extension MyFavoritesVC: UsenigColorFilterProtocol{
     func didUserTappCancelOrDoneButton(tabBar: UITabBar?) {
         self.tabBarController?.tabBar.isHidden = false
-    }
+        
+    } //Function End
     
     func didUserUseingColorFilter(name: String?, color: UIColor?) {
         if name != ""{
@@ -269,8 +360,8 @@ extension MyFavoritesVC: UsenigColorFilterProtocol{
         }else{
             filterBtnOutlet.setTitle("Filter", for: .normal)
         }
-    }
+    } //Function End
     
 
     
-}
+} //Extension End

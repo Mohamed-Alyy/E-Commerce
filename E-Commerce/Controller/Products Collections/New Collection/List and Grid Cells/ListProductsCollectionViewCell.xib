@@ -65,9 +65,9 @@
                                 </subviews>
                             </stackView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ohw-Eb-fBW">
-                                <rect key="frame" x="404" y="186.66666666666666" width="68" height="34.333333333333343"/>
+                                <rect key="frame" x="404" y="167" width="68" height="54"/>
                                 <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain" title=" "/>
+                                <buttonConfiguration key="configuration" style="plain" image="favorite" title=" "/>
                                 <connections>
                                     <action selector="favoriteBtnPressed:" destination="gTV-IL-0wX" eventType="touchUpInside" id="jF8-Vt-TfI"/>
                                 </connections>
@@ -153,6 +153,7 @@
         </collectionViewCell>
     </objects>
     <resources>
+        <image name="favorite" width="40" height="40"/>
         <image name="stars" width="109.66666412353516" height="23.333333969116211"/>
         <image name="xmark" catalog="system" width="128" height="113"/>
         <systemColor name="systemBackgroundColor">

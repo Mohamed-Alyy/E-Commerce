@@ -13,6 +13,7 @@ class CollectionTabBC: UITabBarController {
         super.viewDidLoad()
         //navigationController?.navigationBar.prefersLargeTitles = true
         navigationItem.backButtonTitle = ""
+       // print(UserDefaults.standard.value(forKey: "token").debugDescription)
         }
         
     }

@@ -6,12 +6,13 @@
 //
 
 import UIKit
-//import CoreData
 import Kingfisher
 import NVActivityIndicatorView
+import Alertift
+import Alamofire
 
 
-class NewCollectionVC: UIViewController {
+class ElectronicCollectionVC: UIViewController {
     
     
     // MARK: - OUTLETS
@@ -22,7 +23,7 @@ class NewCollectionVC: UIViewController {
     @IBOutlet weak var filterBtnOutlet: UIButton!
     @IBOutlet weak var orderBtnOutlet: UIButton!
     
-    @IBOutlet weak var looderView: NVActivityIndicatorView!
+   
     
     
     // MARK: - Proerties
@@ -31,6 +32,7 @@ class NewCollectionVC: UIViewController {
     var productsCollectionArray:[Product] = []
  
     var islist = true
+
 
     
     override func viewDidLoad() {
@@ -84,7 +86,7 @@ class NewCollectionVC: UIViewController {
 
     func getProductsFromApi () {
         showLoader()
-        ApiCall.fetchData(url: K.urlproducts, method: .get, parameter: nil, headers: nil) {[weak self]( products: Products?, error) in
+        ApiCall.fetchData(url: K.urlproducts, method: .get, parameter: nil, headers: nil, encoding: nil) {[weak self]( products: Products?, error) in
             guard let self = self else {return}
             defer{
                 self.hideLoadr()
@@ -95,6 +97,26 @@ class NewCollectionVC: UIViewController {
                 self.productsCollectionArray = (products?.data.products)!
                 print(self.productsCollectionArray.count)
                 self.productsCollection.reloadData()
+            }
+        }
+    }
+    
+    func addOrRemoveFavorite(row: Int){
+        let parameter = ["product_id": productsCollectionArray[row].id]
+        
+        ApiCall.fetchData(url: K.urlFavorites, method: .post, parameter: parameter, headers: K.authorizHeaders, encoding: nil) { (data: BaseResponse<AddOrDelFavorie>?, error) in
+            if error != nil {
+                // show alert error message
+                Alertift.alert(title: "", message: data?.message)
+                    .action(.default("تم"))
+                    .show(on: self)
+            }else{
+                // show alert add or delete message
+                
+                Alertift.alert(title: "", message: data?.message)
+                    .action(.default("تم"))
+                    .show(on: self)
+              
             }
         }
     }
@@ -122,7 +144,7 @@ class NewCollectionVC: UIViewController {
 
 // MARK: - Collection View Extension
 
-extension NewCollectionVC:Typealias.collectionView_DataSourece_Delegate{
+extension ElectronicCollectionVC:Typealias.collectionView_DataSourece_Delegate{
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
         switch collectionView{
@@ -157,7 +179,7 @@ extension NewCollectionVC:Typealias.collectionView_DataSourece_Delegate{
                         
                         lisetCell.titleLBL.text = currentProduc.name
                         lisetCell.priceLBL.text = "$ \(currentProduc.price)"
-                        lisetCell.descriptionLBL.text = "\(currentProduc.datumDescription)"
+                        lisetCell.descriptionLBL.text = "\(currentProduc.description)"
                         // use extension EXuiimageVie with Kingfisher to load image
                         lisetCell.productImage.loadImage(url: currentProduc.image)
     
@@ -165,8 +187,14 @@ extension NewCollectionVC:Typealias.collectionView_DataSourece_Delegate{
                         lisetCell.xBtnOUtlet.isHidden = true
 
                         lisetCell.cellRow = indexPath.row
-                        lisetCell.delegate=self
+                        lisetCell.delegate = self
 
+                        // set favorite button image
+                        if currentProduc.inFavorites!{
+                            lisetCell.favoriteBtn.setImage(K.isFavoriteImage, for: .normal)
+                        }else{
+                            lisetCell.favoriteBtn.setImage(K.notFavoriteImage, for: .normal)
+                        }
 
                         return lisetCell
                     }
@@ -175,7 +203,7 @@ extension NewCollectionVC:Typealias.collectionView_DataSourece_Delegate{
                        
                         gridCell.priceLBL.text = "$ \(currentProduc.price)"
                         gridCell.produtsTitlLBL.text = currentProduc.name
-                        gridCell.descriptionLBL.text = currentProduc.datumDescription
+                        gridCell.descriptionLBL.text = currentProduc.description
                         gridCell.productImageView.loadImage(url: currentProduc.image)
 
                         // hide x button
@@ -185,12 +213,9 @@ extension NewCollectionVC:Typealias.collectionView_DataSourece_Delegate{
 
                         return gridCell
                     }
-
                 }
-
-
             }
-//
+
         return UICollectionViewCell()
     }
     
@@ -267,11 +292,11 @@ extension NewCollectionVC:Typealias.collectionView_DataSourece_Delegate{
 // MARK: - Custom Delegate
 
 
-extension NewCollectionVC: FavoriteDelegateProtocol{
+extension ElectronicCollectionVC: FavoriteDelegateProtocol{
     
     func didFavoriteTapped(row: Int) {
-//        newCollectionArray[row].isFavorite.toggle()
-//        saveMyFavoritesInCoreData(row: row)
+        addOrRemoveFavorite(row: row)
+          
     }
     
     
@@ -283,7 +308,7 @@ extension NewCollectionVC: FavoriteDelegateProtocol{
 }
 
 //Filtering data
-extension NewCollectionVC: UsenigSortingFilterProtocol{
+extension ElectronicCollectionVC: UsenigSortingFilterProtocol{
     func didUserTappDoneOrCancelButton(tabBar: UITabBar?) {
         //
     }
@@ -295,7 +320,7 @@ extension NewCollectionVC: UsenigSortingFilterProtocol{
     }
 }
 
-extension NewCollectionVC: UsenigColorFilterProtocol{
+extension ElectronicCollectionVC: UsenigColorFilterProtocol{
     func didUserTappCancelOrDoneButton(tabBar: UITabBar?) {
         //
     }

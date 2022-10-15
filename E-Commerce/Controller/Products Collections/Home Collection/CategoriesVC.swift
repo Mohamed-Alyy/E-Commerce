@@ -47,7 +47,7 @@ class CategoriesVC: UIViewController {
     
     func getCategoriesFromApi(){
         showLoader()
-        ApiCall.fetchData(url: K.urlCategories, method: .get, parameter: nil, headers: nil) {[weak self]( categoris: Categories?, error) in
+        ApiCall.fetchData(url: K.urlCategories, method: .get, parameter: nil, headers: nil, encoding: nil) {[weak self]( categoris: Categories?, error) in
             guard let self = self else {return}
             defer{
                 self.hideLoadr()
@@ -88,7 +88,7 @@ extension CategoriesVC:Typealias.collectionView_DataSourece_Delegate{
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if indexPath.row == 0 {
-            let newCollectionVC = storyboard?.instantiateViewController(withIdentifier: K.newCollectionVCid) as! NewCollectionVC
+            let newCollectionVC = storyboard?.instantiateViewController(withIdentifier: K.newCollectionVCid) as! ElectronicCollectionVC
             
             newCollectionVC.title = categoryArray[indexPath.row].name
             navigationController?.pushViewController(newCollectionVC, animated: true)

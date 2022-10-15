@@ -68,7 +68,7 @@ class LogInVC: UIViewController {
         guard  !emailTF.text!.isEmpty && !passwordTF.text!.isEmpty else {return}
         
         let parameters: [String: Any] = ["email": emailTF.text! , "password" : passwordTF.text!]
-        ApiCall.fetchData(url: K.urlLogin, method: .post, parameter: parameters, headers: nil) { (data: BaseResponse<Login>?, error) in
+        ApiCall.fetchData(url: K.urlLogin, method: .post, parameter: parameters, headers: nil, encoding: nil) { (data: BaseResponse<Login>?, error) in
             if let error = error {
                 print(error.localizedDescription)
                 Alertift.alert(title: "خطأ", message: data?.message)
@@ -84,14 +84,12 @@ class LogInVC: UIViewController {
                 }else{
                     let token = data?.data?.token
                     UserDefaults.standard.set(token, forKey: "token")
-                    print(token)
+        
                     let tabBar = UIStoryboard(name: K.productiosStoryboardId, bundle: nil).instantiateViewController(withIdentifier: K.collectionTabBarid)
                    
                     tabBar.navigationItem.hidesBackButton = true
+                    
                     Alertift.alert(title: "تسجيل الدخول", message: data?.message)
-//                        .action(.default("تم")){
-//                            self.navigationController?.pushViewController(tabBar, animated: true)
-//                        }
                         .action(.default("تم"), handler: {
                             self.navigationController?.pushViewController(tabBar, animated: true)
                         })
@@ -104,6 +102,7 @@ class LogInVC: UIViewController {
     }
     
   
+    
     
     // VC End
 }

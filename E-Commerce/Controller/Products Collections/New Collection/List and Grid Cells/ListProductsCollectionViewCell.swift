@@ -10,10 +10,14 @@ import UIKit
 protocol FavoriteDelegateProtocol{
     func didFavoriteTapped(row: Int)
     func didXbuttonTapped(favRow: Int)
+    //func setFavButtonImage(row: Int)
+    
 }
 
 
 class ListProductsCollectionViewCell: UICollectionViewCell{
+    
+    // MARK: - OUtlets
     
     @IBOutlet weak var subCollecBgroundView: UIView!
     
@@ -34,11 +38,14 @@ class ListProductsCollectionViewCell: UICollectionViewCell{
         Helper.customViews(views: [subCollecBgroundView], cornerRadius: nil)
     }
     
+    // MARK: - Properties
     
     var cellRow : Int?
     var delegate: FavoriteDelegateProtocol?
     
     
+    
+    // MARK: - Actions
     
     @IBAction func favoriteBtnPressed(_ sender: UIButton) {
         if let cellRow{
@@ -54,7 +61,15 @@ class ListProductsCollectionViewCell: UICollectionViewCell{
         }
     }
     
+    // MARK: - Functions
     
+//    func setFavoriteImage(row: Int? , isFavorite: Bool, button: UIButton){
+//        if isFavorite{
+//            button.setImage(K.isFavoriteImage, for: .normal)
+//        }else{
+//            button.setImage(K.notFavoriteImage, for: .normal)
+//        }
+//    }
 }
 
 

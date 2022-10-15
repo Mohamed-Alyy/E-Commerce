@@ -47,16 +47,16 @@
             </objects>
             <point key="canvasLocation" x="554" y="1576"/>
         </scene>
-        <!--New CollectionVC-->
+        <!--Electronic CollectionVC-->
         <scene sceneID="qpo-i2-eVn">
             <objects>
-                <viewController storyboardIdentifier="NewCollectionVC" id="yoV-jq-LnT" customClass="NewCollectionVC" customModule="E_Commerce" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ElectronicCollectionVC" id="yoV-jq-LnT" customClass="ElectronicCollectionVC" customModule="E_Commerce" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="DXj-Rb-cK4">
                         <rect key="frame" x="0.0" y="0.0" width="428" height="926"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="1rv-V3-WQB">
-                                <rect key="frame" x="8" y="99.000000000000014" width="412" height="62.666666666666671"/>
+                                <rect key="frame" x="8" y="99" width="412" height="62.666666666666657"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="10" minimumInteritemSpacing="10" id="3Kb-fS-UEy">
                                     <size key="itemSize" width="323" height="53"/>
@@ -593,10 +593,10 @@
             </objects>
             <point key="canvasLocation" x="2629" y="1593"/>
         </scene>
-        <!--Shopping BagVC-->
+        <!--CartVC-->
         <scene sceneID="xKL-C9-Qvk">
             <objects>
-                <viewController storyboardIdentifier="ShoppingBagVC" id="gTR-WW-6IU" customClass="ShoppingBagVC" customModule="E_Commerce" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="CartVC" id="gTR-WW-6IU" customClass="CartVC" customModule="E_Commerce" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="KZV-PF-vSg">
                         <rect key="frame" x="0.0" y="0.0" width="428" height="926"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -636,7 +636,7 @@
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="plain" image="list" title=" "/>
                                         <connections>
-                                            <action selector="convertCollectionGridBtnPressed:" destination="gTR-WW-6IU" eventType="touchUpInside" id="XEk-hl-Z2U"/>
+                                            <action selector="convertCollectionGridBtnPressed:" destination="gTR-WW-6IU" eventType="touchUpInside" id="iKh-Kl-T2F"/>
                                         </connections>
                                     </button>
                                 </subviews>
@@ -672,7 +672,7 @@
                                                 <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="$ 97" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="E8m-ij-tuq">
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="$ 0" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="E8m-ij-tuq">
                                                 <rect key="frame" x="194.66666666666669" y="0.0" width="174.66666666666669" height="20.333333333333332"/>
                                                 <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
                                                 <nil key="textColor"/>
@@ -689,7 +689,7 @@
                                             <color key="baseForegroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </buttonConfiguration>
                                         <connections>
-                                            <action selector="checkOutBtnPressed:" destination="gTR-WW-6IU" eventType="touchUpInside" id="Doe-OY-n9Z"/>
+                                            <action selector="checkOutBtnPressed:" destination="gTR-WW-6IU" eventType="touchUpInside" id="gAX-1d-mHB"/>
                                         </connections>
                                     </button>
                                 </subviews>
@@ -733,8 +733,8 @@
                     </navigationItem>
                     <connections>
                         <outlet property="checkOutBtnOutlet" destination="FOc-bj-igp" id="Ir5-NN-8Oi"/>
-                        <outlet property="convertCollectionGridBtnOutlet" destination="e5n-40-Lp9" id="WHc-gn-pBp"/>
-                        <outlet property="myBagCollection" destination="e90-zl-8rc" id="68H-8y-IVi"/>
+                        <outlet property="convertCollectionGridBtnOutlet" destination="e5n-40-Lp9" id="JAj-8L-tMt"/>
+                        <outlet property="myCartCollection" destination="e90-zl-8rc" id="68H-8y-IVi"/>
                         <outlet property="promoCodeTF" destination="wc8-EU-Tnl" id="V1u-gR-WGW"/>
                         <outlet property="subCategoriesCollection" destination="zLd-Mk-fub" id="1tv-o4-ZyE"/>
                         <outlet property="totalAmountLBL" destination="gRa-Zq-YCl" id="whR-kZ-Hbi"/>
@@ -752,8 +752,28 @@
                     <view key="view" contentMode="scaleToFill" id="qHg-BG-1HN">
                         <rect key="frame" x="0.0" y="0.0" width="428" height="926"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pUS-6p-qXg">
+                                <rect key="frame" x="22" y="761" width="385.33333333333394" height="50"/>
+                                <color key="backgroundColor" systemColor="systemRedColor"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" title="Log Out">
+                                    <fontDescription key="titleFontDescription" type="boldSystem" pointSize="17"/>
+                                    <color key="baseForegroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </buttonConfiguration>
+                                <connections>
+                                    <action selector="logOutBtnPressed:" destination="Gid-oO-NaU" eventType="touchUpInside" id="KIN-fa-ja1"/>
+                                </connections>
+                            </button>
+                        </subviews>
                         <viewLayoutGuide key="safeArea" id="dsd-OG-lMW"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="pUS-6p-qXg" firstAttribute="width" secondItem="qHg-BG-1HN" secondAttribute="width" multiplier="0.900312" id="VoE-zw-wb3"/>
+                            <constraint firstItem="pUS-6p-qXg" firstAttribute="height" secondItem="qHg-BG-1HN" secondAttribute="height" multiplier="0.0539957" id="keb-Vd-jFG"/>
+                            <constraint firstItem="pUS-6p-qXg" firstAttribute="centerX" secondItem="dsd-OG-lMW" secondAttribute="centerX" id="mTa-Sv-wMG"/>
+                            <constraint firstItem="dsd-OG-lMW" firstAttribute="bottom" secondItem="pUS-6p-qXg" secondAttribute="bottom" constant="32" id="wM5-yg-gdK"/>
+                        </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="" image="profile" id="0bb-me-xaw"/>
                 </viewController>

@@ -7,6 +7,11 @@
 
 import UIKit
 
+
+protocol DeleteFromCartProtocol{
+    func didXbuttonTapped(cartRow: Int)
+}
+
 class ListBagCollectionViewCell: UICollectionViewCell {
     
     // MARK: - Outlets
@@ -29,6 +34,11 @@ class ListBagCollectionViewCell: UICollectionViewCell {
         Helper.customViews(views: [bagCollecBgroundView], cornerRadius: nil)
     }
     
+    // MARK: - prooerties
+    
+    var cartRow = 0
+    var delegate: DeleteFromCartProtocol?
+    
     // MARK: - Actions
     
     
@@ -42,4 +52,7 @@ class ListBagCollectionViewCell: UICollectionViewCell {
         
     }
     
+    @IBAction func xButtonPressed(_ sender: UIButton) {
+        delegate?.didXbuttonTapped(cartRow: cartRow)
+    }
 }
